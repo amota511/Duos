@@ -113,7 +113,7 @@ class func unarchiveFromFile6(file : String) -> SKNode? {
 
 import GoogleMobileAds
 
-class GameViewController: UIViewController, GKGameCenterControllerDelegate {
+class GameViewController: UIViewController {
     
     var interstitial: GADInterstitial!
     
@@ -123,13 +123,7 @@ class GameViewController: UIViewController, GKGameCenterControllerDelegate {
     var musicTime: TimeInterval!
     
     var died = 0
-    
-    
-    var gcEnabled = Bool()
-    var gcDefaultLeaderBoard = String()
-    var score = UserDefaults().integer(forKey: "Highest Score")
-    
-    
+
     func loadAd() {
         interstitial = GADInterstitial(adUnitID: "ca-app-pub-3940256099942544/4411468910")
         
@@ -143,8 +137,6 @@ class GameViewController: UIViewController, GKGameCenterControllerDelegate {
         loadAd()
         
         GameStartFunc()
-        
-        authenticateLocalPlayer()
 
         playAudio = try? AVAudioPlayer(contentsOf: startAudio)
         playAudio.numberOfLoops = Int.max
@@ -158,68 +150,6 @@ class GameViewController: UIViewController, GKGameCenterControllerDelegate {
             interstitial.present(fromRootViewController: self)
         } else {
             print("Ad wasn't ready")
-        }
-    }
-    
-    func submitScore(){
-        
-    let leaderBoardID = "DuosLeaderBoard"
-    let sscore = GKScore(leaderboardIdentifier: leaderBoardID)
-    
-        sscore.value = Int64(score)
-        
-        //let localPlayer: GKLocalPlayer = GKLocalPlayer.localPlayer()
-        GKScore.report([sscore], withCompletionHandler: {  (error: Error?) -> Void in
-            if error != nil{
-                print("Score Submitted")
-            } else{
-                print(error!.localizedDescription)
-            }
-        })
-    }
-    
-    
-    func showLeaderBoard(){
-        
-        let gcVC:GKGameCenterViewController = GKGameCenterViewController()
-        gcVC.gameCenterDelegate = self
-        gcVC.viewState = GKGameCenterViewControllerState.leaderboards
-        gcVC.leaderboardIdentifier = "DuosLeaderBoard"
-        self.present(gcVC, animated: true, completion: nil)
-         
-    }
-    
-    func gameCenterViewControllerDidFinish(_ gameCenterViewController: GKGameCenterViewController) {
-        gameCenterViewController.dismiss(animated: true, completion: nil)
-    }
-    
-    
-    func authenticateLocalPlayer(){
-        let localPlayer: GKLocalPlayer = GKLocalPlayer.localPlayer()
-        
-        localPlayer.authenticateHandler = {(ViewController, error) -> Void in
-            if((ViewController) != nil) {
-                self.present(ViewController!, animated: true, completion: nil)
-            } else if (localPlayer.isAuthenticated) {
-                print("Local Player already authenticated")
-                self.gcEnabled = true
-                print("Local Player Already authenticated")
-                
-                localPlayer.loadDefaultLeaderboardIdentifier(completionHandler: {  (leaderboardIdentifier: String?, error: Error?) -> Void in
-                    if error != nil {
-                        print(error)
-                    } else{
-                        self.gcDefaultLeaderBoard = leaderboardIdentifier!
-                    }
-                })
-                
-                
-            } else{
-                self.gcEnabled = false
-                print("Local player cold not be authenticatd, disabling game center")
-                print(error)
-            }
-        
         }
     }
     
@@ -316,6 +246,14 @@ class GameViewController: UIViewController, GKGameCenterControllerDelegate {
     
     func gameOverFunc(){
         
+        died += 1
+        if died == 2 {
+            print("show add")
+            showAd()
+            print("close ad")
+            died = 0
+        }
+        loadAd()
         
         if let scene = GameOver.unarchiveFromFile4("GameScene") as? GameOver {
             // Configure the view.
@@ -333,13 +271,7 @@ class GameViewController: UIViewController, GKGameCenterControllerDelegate {
             
         }
         
-        died += 1
-        if died == 1 {
-            showAd()
-            died = 0
-        }
         
-        loadAd()
     }
     
     func levelEndlessFunc(){
@@ -359,10 +291,7 @@ class GameViewController: UIViewController, GKGameCenterControllerDelegate {
             skView.presentScene(scene)
             scene.gameView5 = self
             
-        }
-        
-        
-        
+        } 
     }
     
     func TutorialFunc(){
@@ -420,11 +349,6 @@ class GameViewController: UIViewController, GKGameCenterControllerDelegate {
         } else {
             return UIInterfaceOrientationMask.all
         }
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Release any cached data, images, etc that aren't in use.
     }
     
     override var prefersStatusBarHidden : Bool {

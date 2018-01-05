@@ -32,9 +32,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     override func didMove(to view: SKView) {
         
         
-        
-        
-        
         let skyColor = SKColor(red: 96.0/255.0, green: 123.0/255.0, blue: 139.0/255.0, alpha: 1.0)
         self.backgroundColor = skyColor
         
@@ -112,55 +109,55 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         
         
-        let S = SKLabelNode(fontNamed: "Verdana")
-        S.position = CGPoint(x: self.frame.midX - 50, y: 3 * self.frame.height / 4)
-        S.zPosition = 100
-        S.setScale(self.frame.size.height / 1110)
-        S.text = String("D")
+        let DLabel = SKLabelNode(fontNamed: "Verdana")
+        DLabel.position = CGPoint(x: self.frame.midX - 50, y: 3 * self.frame.height / 4)
+        DLabel.zPosition = 100
+        DLabel.setScale(self.frame.size.height / 1110)
+        DLabel.text = String("D")
         let SMoveUp = SKAction.moveTo(y: self.frame.midY + 210, duration: 2.5)
         let SMoveDown = SKAction.moveTo(y: self.frame.midY + 160, duration: 2.5)
         let moveS = SKAction.repeatForever(SKAction.sequence([SMoveUp,SMoveDown]))
-        S.run(moveS)
-        self.addChild(S)
+        DLabel.run(moveS)
+        self.addChild(DLabel)
         
-        let P = SKLabelNode(fontNamed: "Verdana")
-        P.position = CGPoint(x: self.frame.midX - 5, y: 3 * self.frame.height / 4)
-        P.zPosition = 100
-        P.setScale(self.frame.size.height / 1110)
-        P.text = String("U")
+        let ULabel = SKLabelNode(fontNamed: "Verdana")
+        ULabel.position = CGPoint(x: self.frame.midX - 5, y: 3 * self.frame.height / 4)
+        ULabel.zPosition = 100
+        ULabel.setScale(self.frame.size.height / 1110)
+        ULabel.text = String("U")
         let pauseP = SKAction.wait(forDuration: TimeInterval(0.4))
         let PMoveUp = SKAction.moveTo(y: self.frame.midY + 210, duration: 2.5)
         let PMoveDown = SKAction.moveTo(y: self.frame.midY + 160, duration: 2.5)
         let moveP = SKAction.repeatForever(SKAction.sequence([PMoveUp,PMoveDown]))
         let MovingP = SKAction.sequence([pauseP,moveP])
-        P.run(MovingP)
-        self.addChild(P)
+        ULabel.run(MovingP)
+        self.addChild(ULabel)
         
-        let L = SKLabelNode(fontNamed: "Verdana")
-        L.position = CGPoint(x: self.frame.midX + 43 , y: 3 * self.frame.height / 4)
-        L.zPosition = 100
-        L.setScale(self.frame.size.height / 1110)
-        L.text = String("O")
+        let OLabel = SKLabelNode(fontNamed: "Verdana")
+        OLabel.position = CGPoint(x: self.frame.midX + 43 , y: 3 * self.frame.height / 4)
+        OLabel.zPosition = 100
+        OLabel.setScale(self.frame.size.height / 1110)
+        OLabel.text = String("O")
         let pauseL = SKAction.wait(forDuration: TimeInterval(0.8))
         let LMoveUp = SKAction.moveTo(y: self.frame.midY + 210, duration: 2.5)
         let LMoveDown = SKAction.moveTo(y: self.frame.midY + 160, duration: 2.5)
         let moveL = SKAction.repeatForever(SKAction.sequence([LMoveUp,LMoveDown]))
         let MovingL = SKAction.sequence([pauseL,moveL])
-        L.run(MovingL)
-        self.addChild(L)
+        OLabel.run(MovingL)
+        self.addChild(OLabel)
         
-        let I = SKLabelNode(fontNamed: "Verdana")
-        I.position = CGPoint(x: self.frame.midX + 90, y: 3 * self.frame.height / 4)
-        I.zPosition = 100
-        I.setScale(self.frame.size.height / 1110)
-        I.text = String("S")
+        let SLabel = SKLabelNode(fontNamed: "Verdana")
+        SLabel.position = CGPoint(x: self.frame.midX + 90, y: 3 * self.frame.height / 4)
+        SLabel.zPosition = 100
+        SLabel.setScale(self.frame.size.height / 1110)
+        SLabel.text = String("S")
         let pauseI = SKAction.wait(forDuration: TimeInterval(1.2))
         let IMoveUp = SKAction.moveTo(y: self.frame.midY + 210, duration: 2.5)
         let IMoveDown = SKAction.moveTo(y: self.frame.midY + 160, duration: 2.5)
         let moveI = SKAction.repeatForever(SKAction.sequence([IMoveUp,IMoveDown]))
         let MovingI = SKAction.sequence([pauseI,moveI])
-        I.run(MovingI)
-        self.addChild(I)
+        SLabel.run(MovingI)
+        self.addChild(SLabel)
         
         
         
