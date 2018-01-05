@@ -10,7 +10,6 @@
 import UIKit
 import SpriteKit
 import AVFoundation
-import iAd
 import GameKit
 
 extension SKNode {
@@ -111,18 +110,18 @@ class func unarchiveFromFile6(file : String) -> SKNode? {
 }*/
 
 }
-class GameViewController: UIViewController,ADInterstitialAdDelegate, GKGameCenterControllerDelegate {
+
+import GoogleMobileAds
+
+class GameViewController: UIViewController, GKGameCenterControllerDelegate {
+    
+    var interstitial: GADInterstitial!
     
     var startAudio = URL(fileURLWithPath: Bundle.main.path(forResource: "Game Music FINAL", ofType: "mp3")!)
     var playAudio : AVAudioPlayer!
     var NumberLevel = 0
     var musicTime: TimeInterval!
     
-    
-    var interAd = ADInterstitialAd()
-    var interAdView: UIView = UIView()
-    var closeButton = UIButton(type: UIButtonType.system)
-    var adLoaded = Bool()
     var died = 0
     
     
@@ -131,53 +130,34 @@ class GameViewController: UIViewController,ADInterstitialAdDelegate, GKGameCente
     var score = UserDefaults().integer(forKey: "Highest Score")
     
     
-    
+    func loadAd() {
+        interstitial = GADInterstitial(adUnitID: "ca-app-pub-3940256099942544/4411468910")
+        
+        print("load ad")
+        let request = GADRequest()
+        interstitial.load(request)
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        loadAd()
+        
         GameStartFunc()
         
-        self.authenticateLocalPlayer()
-        
-        
-        closeButton.frame = CGRect(x: 10, y: 5, width: 50, height: 50)
-        closeButton.layer.cornerRadius = 10
-        closeButton.setTitle("x", for: UIControlState())
-        closeButton.setTitleColor(UIColor.black, for: UIControlState())
-        closeButton.backgroundColor = UIColor.white
-        closeButton.layer.borderColor = UIColor.black.cgColor
-        closeButton.layer.borderWidth = 1
-        closeButton.addTarget(self, action: #selector(GameViewController.close(_:)), for: UIControlEvents.touchDown)
-        
-        // Preload a new iAd
-        print("load ad")
-        interAd = ADInterstitialAd()
-        interAd.delegate = self
-        
+        authenticateLocalPlayer()
+
         playAudio = try? AVAudioPlayer(contentsOf: startAudio)
-        playAudio.numberOfLoops = 2015
+        playAudio.numberOfLoops = Int.max
         playAudio.play()
         
-        
-    }
-    
-    func close(_ sender: UIButton) {
-        closeButton.removeFromSuperview()
-        interAdView.removeFromSuperview()
-        interAd.delegate = nil
-        
-        // Preload a new iAd
-        print("load ad")
-        interAd = ADInterstitialAd()
-        interAd.delegate = self
-        
-        adLoaded = false
     }
     
     
-    @IBAction func showAd() {
-        if(adLoaded == true) { // If ad hasn't loaded show nothing, otherwise load the ad
-            loadAd()
+    func showAd() {
+        if interstitial.isReady {
+            interstitial.present(fromRootViewController: self)
+        } else {
+            print("Ad wasn't ready")
         }
     }
     
@@ -196,8 +176,6 @@ class GameViewController: UIViewController,ADInterstitialAdDelegate, GKGameCente
                 print(error!.localizedDescription)
             }
         })
-        
-        
     }
     
     
@@ -208,10 +186,7 @@ class GameViewController: UIViewController,ADInterstitialAdDelegate, GKGameCente
         gcVC.viewState = GKGameCenterViewControllerState.leaderboards
         gcVC.leaderboardIdentifier = "DuosLeaderBoard"
         self.present(gcVC, animated: true, completion: nil)
-        
-        
-        
-        
+         
     }
     
     func gameCenterViewControllerDidFinish(_ gameCenterViewController: GKGameCenterViewController) {
@@ -246,40 +221,6 @@ class GameViewController: UIViewController,ADInterstitialAdDelegate, GKGameCente
             }
         
         }
-    }
-    
-    func loadAd() {
-        // Show the preloaded iAd
-        view.addSubview(interAdView)
-        
-        interAd.present(in: interAdView)
-        UIViewController.prepareInterstitialAds()
-        
-        interAdView.addSubview(closeButton)
-    }
-    
-    
-    func interstitialAdDidLoad(_ interstitialAd: ADInterstitialAd!) {
-        print("ad did load")
-        
-        interAdView = UIView()
-        interAdView.frame = self.view.bounds
-        adLoaded = true
-        
-    }
-    
-    
-    func interstitialAdDidUnload(_ interstitialAd: ADInterstitialAd!) {
-        
-    }
-    
-    func interstitialAd(_ interstitialAd: ADInterstitialAd!, didFailWithError error: Error!) {
-        print("failed to receive")
-        print(error.localizedDescription)
-        
-        closeButton.removeFromSuperview()
-        interAdView.removeFromSuperview()
-        
     }
     
     func GameStartFunc(){
@@ -392,13 +333,13 @@ class GameViewController: UIViewController,ADInterstitialAdDelegate, GKGameCente
             
         }
         
-        died = died + 1
-        if died == 5 {
-         showAd()
+        died += 1
+        if died == 1 {
+            showAd()
             died = 0
         }
         
-        
+        loadAd()
     }
     
     func levelEndlessFunc(){

@@ -35,7 +35,7 @@ class GameOver: SKScene, SKPhysicsContactDelegate {
         let ShowAD = userDefaults.integer(forKey: "AdNumber")
         userDefaults.set(ShowAD + 1, forKey: "AdNumber")
         
-        if ShowAD == 2 {
+        if ShowAD >= 2 {
             //gameView4.showAd(UIButton())
         }
         
@@ -63,9 +63,7 @@ class GameOver: SKScene, SKPhysicsContactDelegate {
         self.addChild(stageTwoButton)
         
         
-        
-        
-        
+
         let levelThreeButton = SKTexture(imageNamed: "Stage3")
         levelThreeButton.filteringMode = .nearest
         stageThreeButton = SKSpriteNode(texture: levelThreeButton)
@@ -117,13 +115,14 @@ class GameOver: SKScene, SKPhysicsContactDelegate {
         selectmusic.position = CGPoint(x: self.frame.midX, y: self.frame.height / 7)
         selectmusic.zPosition = 100
         selectmusic.text = String("music on/off:")
-        self.addChild(selectmusic)
+        
+        addChild(selectmusic)
         
         let highScore = userDefaults.integer(forKey: "Highest Score")
         if (totalScore > highScore) {
             userDefaults.set(totalScore, forKey: "Highest Score")
         }
-        let showHighScore = userDefaults.integer(forKey: "Highest Score")
+        let highestScore = userDefaults.integer(forKey: "Highest Score")
         
         
         
@@ -132,22 +131,26 @@ class GameOver: SKScene, SKPhysicsContactDelegate {
         userDefaults.set(0, forKey: "Score3")
         
         
-        let highestScore = SKLabelNode(fontNamed: "Verdana")
-        highestScore.setScale(1.0)
-        highestScore.position = CGPoint(x: self.frame.midX, y: self.frame.height / 1.4)
-        highestScore.zPosition = 100
-        highestScore.text = String("Highest Score: \(showHighScore)")
+        let highScoreLabel = SKLabelNode(fontNamed: "Verdana")
+        highScoreLabel.setScale(1.0)
+        highScoreLabel.position = CGPoint(x: self.frame.midX, y: self.frame.height / 1.4)
+        highScoreLabel.zPosition = 100
+        highScoreLabel.text = String("Highest Score: \(highestScore)")
         
         let gameOverNode = SKLabelNode(fontNamed: "Verdana")
-        gameOverNode.setScale(2.0)
-        gameOverNode.position = CGPoint(x: self.frame.midX, y: self.frame.midY + (self.frame.height / 100))
+        //gameOverNode = CGSize(width: self.view!.frame.width / 3, height: self.view?.frame.height / 12)//CGRect(x: self.frame.midX, y: self.frame.midY + (self.frame.height / 100), width: self.view!.frame.width / 3, height: self.view?.frame.height / 12)
+        gameOverNode.fontSize = 65
+        gameOverNode.position = CGPoint(x: frame.midX, y: frame.midY)
         gameOverNode.zPosition = 100
-        gameOverNode.text = String("Try Again!")
-        self.addChild(gameOverNode)
+        gameOverNode.text = "Try Again!"
+        
+        //let winner = SKLabelNode(fontNamed: "Chalkduster")
+        
+        addChild(gameOverNode)
         
         
-        self.addChild(highestScore)
-        self.addChild(gameOverScore)
+        addChild(highScoreLabel)
+        addChild(gameOverScore)
     }
     
     

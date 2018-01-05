@@ -10,8 +10,6 @@
 
 import SpriteKit
 
-
-
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var greyBarTexture: SKTexture!
@@ -30,9 +28,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var stageTwoButton: SKSpriteNode!
     var stageThreeButton: SKSpriteNode!
     var gameView0: GameViewController!
-
     
     override func didMove(to view: SKView) {
+        
+        
+        
         
         
         let skyColor = SKColor(red: 96.0/255.0, green: 123.0/255.0, blue: 139.0/255.0, alpha: 1.0)
