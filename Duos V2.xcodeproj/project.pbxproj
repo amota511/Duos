@@ -20,7 +20,7 @@
 		1A7681501DDC968E00B51AB2 /* Light Grey Triangle.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A76814A1DDC968E00B51AB2 /* Light Grey Triangle.png */; };
 		1A7681511DDC968E00B51AB2 /* Long Grey Bar .png in Resources */ = {isa = PBXBuildFile; fileRef = 1A76814B1DDC968E00B51AB2 /* Long Grey Bar .png */; };
 		1A7681521DDC968E00B51AB2 /* NewPlayers.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A76814C1DDC968E00B51AB2 /* NewPlayers.png */; };
-		1A7681531DDC968E00B51AB2 /* NewPlayers1.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A76814D1DDC968E00B51AB2 /* NewPlayers1.png */; };
+		1A7681531DDC968E00B51AB2 /* ballPlayer.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A76814D1DDC968E00B51AB2 /* ballPlayer.png */; };
 		1A7681551DDC96AB00B51AB2 /* LargeLaunch.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A7681541DDC96AB00B51AB2 /* LargeLaunch.png */; };
 		1A7681571DDC96B100B51AB2 /* Home.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A7681561DDC96B100B51AB2 /* Home.png */; };
 		1A76815B1DDC96C100B51AB2 /* Dark Grey Circle.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A7681581DDC96C100B51AB2 /* Dark Grey Circle.png */; };
@@ -67,7 +67,7 @@
 		1A76814A1DDC968E00B51AB2 /* Light Grey Triangle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Light Grey Triangle.png"; sourceTree = "<group>"; };
 		1A76814B1DDC968E00B51AB2 /* Long Grey Bar .png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Long Grey Bar .png"; sourceTree = "<group>"; };
 		1A76814C1DDC968E00B51AB2 /* NewPlayers.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = NewPlayers.png; sourceTree = "<group>"; };
-		1A76814D1DDC968E00B51AB2 /* NewPlayers1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = NewPlayers1.png; sourceTree = "<group>"; };
+		1A76814D1DDC968E00B51AB2 /* ballPlayer.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ballPlayer.png; sourceTree = "<group>"; };
 		1A7681541DDC96AB00B51AB2 /* LargeLaunch.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LargeLaunch.png; sourceTree = "<group>"; };
 		1A7681561DDC96B100B51AB2 /* Home.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Home.png; sourceTree = "<group>"; };
 		1A7681581DDC96C100B51AB2 /* Dark Grey Circle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Dark Grey Circle.png"; sourceTree = "<group>"; };
@@ -131,7 +131,7 @@
 				1A76814A1DDC968E00B51AB2 /* Light Grey Triangle.png */,
 				1A76814B1DDC968E00B51AB2 /* Long Grey Bar .png */,
 				1A76814C1DDC968E00B51AB2 /* NewPlayers.png */,
-				1A76814D1DDC968E00B51AB2 /* NewPlayers1.png */,
+				1A76814D1DDC968E00B51AB2 /* ballPlayer.png */,
 				1A7681421DDC966C00B51AB2 /* Stage1.png */,
 				1A7681441DDC967C00B51AB2 /* Stage2.png */,
 				1A7681451DDC967C00B51AB2 /* Stage3.png */,
@@ -335,7 +335,7 @@
 				1AB850EA1B812EE9004A032B /* GameScene.sks in Resources */,
 				1A76815C1DDC96C100B51AB2 /* Dark Grey Square.png in Resources */,
 				1A76815B1DDC96C100B51AB2 /* Dark Grey Circle.png in Resources */,
-				1A7681531DDC968E00B51AB2 /* NewPlayers1.png in Resources */,
+				1A7681531DDC968E00B51AB2 /* ballPlayer.png in Resources */,
 				1A7681571DDC96B100B51AB2 /* Home.png in Resources */,
 				1A76815D1DDC96C100B51AB2 /* Dark Grey Triangle.png in Resources */,
 				1AB850F11B812EE9004A032B /* Main.storyboard in Resources */,

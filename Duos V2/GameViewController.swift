@@ -131,6 +131,7 @@ class GameViewController: UIViewController {
         let request = GADRequest()
         interstitial.load(request)
     }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -167,12 +168,10 @@ class GameViewController: UIViewController {
             /* Set the scale mode to scale to fit the window */
             scene.scaleMode = .aspectFill
             skView.presentScene(scene)
+            
             scene.gameView0 = self
         }
-        
-        
     }
-    
     
     func levelOneFunc(){
         
@@ -192,10 +191,7 @@ class GameViewController: UIViewController {
             skView.presentScene(scene)
             scene.gameView1 = self
             
-        }
-
-       
-        
+        }   
     }
     
     func levelTwoFunc(){
@@ -291,7 +287,7 @@ class GameViewController: UIViewController {
             skView.presentScene(scene)
             scene.gameView5 = self
             
-        } 
+        }
     }
     
     func TutorialFunc(){
@@ -327,7 +323,7 @@ class GameViewController: UIViewController {
         
     }
     
-    func DeadScreenPopUp(){
+     func DeadScreenPopUp(){
         
         var deadFrame: CGRect = CGRect(x: 0, y: 0, width: 200, height: 200)
         deadFrame.size = CGSize(width: 100,height: 100)

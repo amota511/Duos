@@ -12,37 +12,135 @@ import SpriteKit
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
-    var greyBarTexture: SKTexture!
+    var startScreenNode = SKNode()
+    
     var greyBarNode: SKSpriteNode!
-    var blackBallTexture: SKTexture!
-    var greyBallTexture: SKTexture!
-    var blackBall: SKSpriteNode!
-    var greyBall: SKSpriteNode!
+    
+    var ballOne: SKSpriteNode!
+    var ballTwo: SKSpriteNode!
     var BallPair: SKNode!
+    
     var scoreLabelNode: SKLabelNode!
+    
     var PlayLabel: SKLabelNode!
+    
     var L1 = SKLabelNode(fontNamed:"Verdana")
     var L2 = SKLabelNode(fontNamed:"Verdana")
     var L3 = SKLabelNode(fontNamed:"Verdana")
+    
     var stageOneButton: SKSpriteNode!
     var stageTwoButton: SKSpriteNode!
     var stageThreeButton: SKSpriteNode!
+    
     var gameView0: GameViewController!
     
+    var letterNodes = [SKLabelNode]()
+    
+    lazy var height = {
+        self.frame.size.height
+    }()
+    
+    lazy var width = {
+        self.frame.size.width
+    }()
+ 
     override func didMove(to view: SKView) {
         
+        setBackground()
+
+        creaPlayers()
+        createDuosLetters()
+        createBar()
+        createPlayLabel()
+        createLevelButtons()
+        createHighscoreLabel()
+    }
+    
+    func setBackground() {
         
         let skyColor = SKColor(red: 96.0/255.0, green: 123.0/255.0, blue: 139.0/255.0, alpha: 1.0)
         self.backgroundColor = skyColor
+    }
+    
+    func creaPlayers() {
+       
+        let ballOneTexture = SKTexture(imageNamed: "ballPlayer")
+        ballOneTexture.filteringMode = .nearest
         
+        ballOne = SKSpriteNode(texture: ballOneTexture)
+        ballOne.setScale(0.6)
+        ballOne.position = CGPoint(x: width / 7, y: height / 2 + 70)
+        ballOne.zPosition = -1
         
-        blackBallTexture = SKTexture(imageNamed: "NewPlayers1")
-        blackBallTexture.filteringMode = .nearest
+        createBallPhysicsBody(ballPlayer: ballOne)
+
+        let ballOneMoveUp = SKAction.moveTo(y: height / 2 + 190, duration: 3.5)
+        let ballOneMoveDown = SKAction.moveTo(y: height / 2 + 65, duration: 3.5)
+        let antiGravity = SKAction.repeatForever(SKAction.sequence([ballOneMoveUp,ballOneMoveDown]))
+        ballOne.run(antiGravity)
+        self.addChild(ballOne)
         
-        greyBallTexture = SKTexture(imageNamed: "NewPlayers1")
-        greyBallTexture.filteringMode = .nearest
+        let ballTwoTexture = SKTexture(imageNamed: "ballPlayer")
+        ballTwo = SKSpriteNode(texture: ballTwoTexture)
+        ballTwo.setScale(0.6)
+        ballTwo.position = CGPoint(x: width / 7, y: height / 2 - 70)
         
-        greyBarTexture = SKTexture(imageNamed: "Long Grey Bar ")
+        createBallPhysicsBody(ballPlayer: ballTwo)
+        
+        let ballTwoMoveUp = SKAction.moveTo(y: height / 2 - 190, duration: 3.5)
+        let ballTwoMoveDown = SKAction.moveTo(y: height / 2 - 65, duration: 3.5)
+        let gravity = SKAction.repeatForever(SKAction.sequence([ballTwoMoveUp,ballTwoMoveDown]))
+        ballTwo.run(gravity)
+        addChild(ballTwo)
+        
+    }
+    
+    func createBallPhysicsBody(ballPlayer: SKSpriteNode) {
+        
+        ballPlayer.physicsBody = SKPhysicsBody(texture: ballPlayer.texture!, size: ballPlayer.size)
+        ballPlayer.physicsBody!.isDynamic = true
+        ballPlayer.physicsBody!.allowsRotation = false
+        ballPlayer.physicsBody!.affectedByGravity = false
+    }
+    
+    func createDuosLetters() {
+        
+        let DLabel = moveLetter(letter: "D", xOffset: -50, pauseInterval: 0)
+        self.addChild(DLabel)
+        
+        let ULabel = moveLetter(letter: "U", xOffset: -5, pauseInterval: 0.4)
+        self.addChild(ULabel)
+        
+        let OLabel = moveLetter(letter: "O", xOffset: 43, pauseInterval: 0.8)
+        self.addChild(OLabel)
+        
+        let SLabel = moveLetter(letter: "S", xOffset: 90, pauseInterval: 1.2)
+        self.addChild(SLabel)
+        
+        letterNodes.append(contentsOf: [DLabel, ULabel, OLabel, SLabel])
+    }
+    
+    func moveLetter(letter: String, xOffset: Int, pauseInterval : CGFloat) -> SKLabelNode {
+        
+        let letterLabel = SKLabelNode(fontNamed: "Verdana")
+        letterLabel.position = CGPoint(x: self.frame.midX + CGFloat(xOffset), y: 3 * self.frame.height / 4)
+        letterLabel.setScale(self.frame.size.height / 1110)
+        letterLabel.text = letter
+        
+        let pauseLetter = SKAction.wait(forDuration: TimeInterval(pauseInterval))
+        let moveLetterUp = SKAction.moveTo(y: self.frame.midY + 210, duration: 2.5)
+        let moveLetterDown = SKAction.moveTo(y: self.frame.midY + 160, duration: 2.5)
+        let moveLetter = SKAction.repeatForever(SKAction.sequence([moveLetterUp, moveLetterDown]))
+        let movingLetter = SKAction.sequence([pauseLetter,moveLetter])
+        
+        letterLabel.run(movingLetter)
+        
+        return letterLabel
+    }
+    
+    func createBar() {
+        
+        let greyBarTexture = SKTexture(imageNamed: "Long Grey Bar ")
         greyBarTexture.filteringMode = .nearest
         greyBarNode = SKSpriteNode(texture: greyBarTexture)
         greyBarNode.setScale(1.0)
@@ -51,34 +149,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         greyBarNode.physicsBody = SKPhysicsBody(rectangleOf: greyBarNode.size)
         greyBarNode.physicsBody?.isDynamic = false
         self.addChild(greyBarNode)
-        
-        
-        
-        let userDefaults = UserDefaults()
-        //var highScore = userDefaults.integerForKey("Highest Score")
-        let showHighScore = userDefaults.integer(forKey: "Highest Score")
-        
-        
-        scoreLabelNode = SKLabelNode(fontNamed:"Verdana")
-        scoreLabelNode.position = CGPoint( x: self.frame.midX, y: self.frame.size.height / 6 )
-        scoreLabelNode.zPosition = 100
-        scoreLabelNode.setScale(self.frame.size.height / 1110)
-        scoreLabelNode.text = String("Highest Score: \(showHighScore)")
-        self.addChild(scoreLabelNode)
-        
-        
-        
+    }
+    
+    func createPlayLabel() {
+
         PlayLabel = SKLabelNode(fontNamed:"Verdana")
         PlayLabel.position = CGPoint(x: self.frame.midX, y: self.frame.size.height / 2.5)
         PlayLabel.zPosition = 100
         PlayLabel.setScale(self.frame.size.height / 1110)
         PlayLabel.text = String("Select Level:")
         self.addChild(PlayLabel)
-        
-        
-        let placeBalls = SKAction.run({() in self.Players()})
-        self.run(placeBalls)
-        
+    }
+    
+    func createLevelButtons() {
         
         let levelOneButton = SKTexture(imageNamed: "Stage1")
         levelOneButton.filteringMode = .nearest
@@ -105,127 +188,36 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         stageThreeButton.zPosition = 10
         stageThreeButton.position = CGPoint(x: self.frame.midX + 150,y: self.frame.size.height / 3.35 )
         self.addChild(stageThreeButton)
-        
-        
-        
-        
-        let DLabel = SKLabelNode(fontNamed: "Verdana")
-        DLabel.position = CGPoint(x: self.frame.midX - 50, y: 3 * self.frame.height / 4)
-        DLabel.zPosition = 100
-        DLabel.setScale(self.frame.size.height / 1110)
-        DLabel.text = String("D")
-        let SMoveUp = SKAction.moveTo(y: self.frame.midY + 210, duration: 2.5)
-        let SMoveDown = SKAction.moveTo(y: self.frame.midY + 160, duration: 2.5)
-        let moveS = SKAction.repeatForever(SKAction.sequence([SMoveUp,SMoveDown]))
-        DLabel.run(moveS)
-        self.addChild(DLabel)
-        
-        let ULabel = SKLabelNode(fontNamed: "Verdana")
-        ULabel.position = CGPoint(x: self.frame.midX - 5, y: 3 * self.frame.height / 4)
-        ULabel.zPosition = 100
-        ULabel.setScale(self.frame.size.height / 1110)
-        ULabel.text = String("U")
-        let pauseP = SKAction.wait(forDuration: TimeInterval(0.4))
-        let PMoveUp = SKAction.moveTo(y: self.frame.midY + 210, duration: 2.5)
-        let PMoveDown = SKAction.moveTo(y: self.frame.midY + 160, duration: 2.5)
-        let moveP = SKAction.repeatForever(SKAction.sequence([PMoveUp,PMoveDown]))
-        let MovingP = SKAction.sequence([pauseP,moveP])
-        ULabel.run(MovingP)
-        self.addChild(ULabel)
-        
-        let OLabel = SKLabelNode(fontNamed: "Verdana")
-        OLabel.position = CGPoint(x: self.frame.midX + 43 , y: 3 * self.frame.height / 4)
-        OLabel.zPosition = 100
-        OLabel.setScale(self.frame.size.height / 1110)
-        OLabel.text = String("O")
-        let pauseL = SKAction.wait(forDuration: TimeInterval(0.8))
-        let LMoveUp = SKAction.moveTo(y: self.frame.midY + 210, duration: 2.5)
-        let LMoveDown = SKAction.moveTo(y: self.frame.midY + 160, duration: 2.5)
-        let moveL = SKAction.repeatForever(SKAction.sequence([LMoveUp,LMoveDown]))
-        let MovingL = SKAction.sequence([pauseL,moveL])
-        OLabel.run(MovingL)
-        self.addChild(OLabel)
-        
-        let SLabel = SKLabelNode(fontNamed: "Verdana")
-        SLabel.position = CGPoint(x: self.frame.midX + 90, y: 3 * self.frame.height / 4)
-        SLabel.zPosition = 100
-        SLabel.setScale(self.frame.size.height / 1110)
-        SLabel.text = String("S")
-        let pauseI = SKAction.wait(forDuration: TimeInterval(1.2))
-        let IMoveUp = SKAction.moveTo(y: self.frame.midY + 210, duration: 2.5)
-        let IMoveDown = SKAction.moveTo(y: self.frame.midY + 160, duration: 2.5)
-        let moveI = SKAction.repeatForever(SKAction.sequence([IMoveUp,IMoveDown]))
-        let MovingI = SKAction.sequence([pauseI,moveI])
-        SLabel.run(MovingI)
-        self.addChild(SLabel)
-        
-        
-        
     }
     
-    func Players() {
-        BallPair = SKNode()
-        BallPair.position = CGPoint(x: self.frame.size.width / 2 - 35, y: 0)
-        BallPair.zPosition = -10
+    func createHighscoreLabel() {
         
-        //let pause = SKAction.waitForDuration(NSTimeInterval(1.0))
-        
-        greyBall = SKSpriteNode(texture: greyBallTexture)
-        greyBall.setScale(0.6)
-        greyBall.position = CGPoint(x: self.frame.size.width / 2 - 875, y: self.frame.size.height / 2 - 70)
-        
-        greyBall.physicsBody = SKPhysicsBody(texture: greyBallTexture, size: greyBall.size)
-        greyBall.physicsBody!.isDynamic = true
-        greyBall.physicsBody!.allowsRotation = false
-        greyBall.physicsBody!.affectedByGravity = false
-        
-        let GreyBallMoveUp = SKAction.moveTo(y: self.frame.size.height / 2 - 190, duration: 3.5)
-        let GreyBallMoveDown = SKAction.moveTo(y: self.frame.size.height / 2 - 65, duration: 3.5)
-        let makeGravity = SKAction.repeatForever(SKAction.sequence([GreyBallMoveUp,GreyBallMoveDown]))
-        greyBall.run(makeGravity)
-        BallPair.addChild(greyBall)
-        
-        blackBall = SKSpriteNode(texture: blackBallTexture)
-        blackBall.setScale(0.6)
-        blackBall.position = CGPoint(x: self.frame.size.width / 2 - 875, y: self.frame.size.height / 2 + 70)
-        
-        blackBall.physicsBody = SKPhysicsBody(texture: blackBallTexture, size: blackBall.size)
-        blackBall.physicsBody!.isDynamic = true
-        blackBall.physicsBody!.allowsRotation = false
-        blackBall.physicsBody!.affectedByGravity = false
-        
-        let BlackBallMoveUp = SKAction.moveTo(y: self.frame.size.height / 2 + 190, duration: 3.5)
-        let BlackBallMoveDown = SKAction.moveTo(y: self.frame.size.height / 2 + 65, duration: 3.5)
-        let makeAntiGravity = SKAction.repeatForever(SKAction.sequence([BlackBallMoveUp,BlackBallMoveDown]))
-        blackBall.run(makeAntiGravity)
-        BallPair.addChild(blackBall)
+        let highestScore = UserDefaults().integer(forKey: "Highest Score")
         
         
-        self.addChild(BallPair)
-        
+        scoreLabelNode = SKLabelNode(fontNamed:"Verdana")
+        scoreLabelNode.position = CGPoint( x: self.frame.midX, y: self.frame.size.height / 6 )
+        scoreLabelNode.zPosition = 100
+        scoreLabelNode.setScale(self.frame.size.height / 1110)
+        scoreLabelNode.text = String("Highest Score: \(highestScore)")
+        self.addChild(scoreLabelNode)
     }
     
-    
-    
-    
+    func removeStartScreen() {
+        
+    }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         /* Called when a touch begins */
         for touch: AnyObject in touches {
+           
             let location = touch.location(in: self)
-            
-            
-            
-            
-            
+ 
             if self.atPoint(location) == self.stageOneButton{
-                
             
                 self.gameView0.levelOneFunc()
                 
-                
             }
-            
             
             if self.atPoint(location) == self.stageTwoButton{
                 
