@@ -160,40 +160,40 @@ class GameOver: SKScene, SKPhysicsContactDelegate {
         for touch: AnyObject in touches {
             let location = touch.location(in: self)
             
-            if self.atPoint(location) == self.stageOneButton{
-                
-                self.gameView4.levelOneFunc()
-                
-            }
-            
-            
-            if self.atPoint(location) == self.stageTwoButton{
-                
-                self.gameView4.levelTwoFunc()
-                
-            }
-            
-            if self.atPoint(location) == self.stageThreeButton{
-                
-                self.gameView4.levelThreeFunc()
-                
-            }
-            
-            if self.atPoint(location) == self.homeButton{
-                
-                self.gameView4.GameStartFunc()
-            }
-            
-            if self.atPoint(location) == self.homeButton2{
-                
-                self.gameView4.levelEndlessFunc()
-            }
-            
-            if self.atPoint(location) == self.selectmusic{
-                
-               self.gameView4.musicControlFunction()
-            }
-            
+//            if self.atPoint(location) == self.stageOneButton{
+//
+//                self.gameView4.levelOneFunc()
+//
+//            }
+//
+//
+//            if self.atPoint(location) == self.stageTwoButton{
+//
+//                self.gameView4.levelTwoFunc()
+//
+//            }
+//
+//            if self.atPoint(location) == self.stageThreeButton{
+//
+//                self.gameView4.levelThreeFunc()
+//
+//            }
+//
+//            if self.atPoint(location) == self.homeButton{
+//
+//                self.gameView4.GameStartFunc()
+//            }
+//
+//            if self.atPoint(location) == self.homeButton2{
+//
+//                self.gameView4.levelEndlessFunc()
+//            }
+//
+//            if self.atPoint(location) == self.selectmusic{
+//
+//               self.gameView4.musicControlFunction()
+//            }
+//
         }
         
     }

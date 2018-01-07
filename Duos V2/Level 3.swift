@@ -444,7 +444,7 @@ class levelThree: SKScene, SKPhysicsContactDelegate {
                     
                     moving.speed = 0
                     
-                    self.gameView3.levelOneFunc()                }
+                                   }
                 
                 } else {
                 

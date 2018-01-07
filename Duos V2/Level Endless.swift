@@ -485,7 +485,7 @@ class levelEndless: SKScene, SKPhysicsContactDelegate {
                 if score/2 == 100000 {
                     
                     moving.speed = 0
-                    self.gameView5.levelOneFunc()
+                    
                     
                 }
                 

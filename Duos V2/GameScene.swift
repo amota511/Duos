@@ -39,11 +39,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var gameIsPlaying = false
     
     override func didMove(to view: SKView) {
-        
+        print("scene loaded")
         setBackground()
 
         createPlayers()
         createBar()
+        //createBorders(isTopBorder: true)
+        //createBorders(isTopBorder: false)
         
         createHomeScreen()
     }
@@ -52,6 +54,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         let skyColor = SKColor(red: 96.0/255.0, green: 123.0/255.0, blue: 139.0/255.0, alpha: 1.0)
         self.backgroundColor = skyColor
+        
+        self.physicsWorld.contactDelegate = self
     }
     
     func createHomeScreen() {
@@ -62,7 +66,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func createPlayers() {
        
-        let ballSize = CGSize(width: height / 20, height: height / 20)
+        let ballSize = CGSize(width: height / 16, height: height / 16)
         
         let ballOneTexture = SKTexture(imageNamed: "ballPlayer")
         
@@ -90,8 +94,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let sign = isAntiGravity ? -1 : 1
         
         //Actions to move ballPlayers up and down
-        let ballMoveUp = SKAction.moveTo(y: height / 2 + CGFloat(sign * 190), duration: 3.5)
-        let ballMoveDown = SKAction.moveTo(y: height / 2 + CGFloat(sign * 65), duration: 3.5)
+        let ballMoveUp = SKAction.moveTo(y: height / 2 + (CGFloat(sign) * (height / 3)), duration: 3.5)
+        let ballMoveDown = SKAction.moveTo(y: height / 2 + (CGFloat(sign) * (height / 8)), duration: 3.5)
         
         //create an infinte loop of the animation
         let gravity = SKAction.repeatForever(SKAction.sequence([ballMoveUp, ballMoveDown]))
@@ -119,22 +123,40 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         barNode.zPosition = -1
         barNode.position = CGPoint(x: width / 2, y: height / 2 )
         barNode.physicsBody = SKPhysicsBody(rectangleOf: barNode.size)
-        barNode.physicsBody?.isDynamic = false
+        barNode.physicsBody!.isDynamic = false
+        barNode.physicsBody!.categoryBitMask = colliderType.bar.rawValue
+        barNode.physicsBody!.contactTestBitMask = colliderType.player.rawValue
+        barNode.physicsBody!.collisionBitMask = colliderType.player.rawValue
         self.addChild(barNode)
+    }
+    
+    func createBorders(isTopBorder: Bool) {
+        
+        let border = SKSpriteNode(texture: barNode.texture!)
+        
+        border.physicsBody = SKPhysicsBody(rectangleOf: barNode.size)
+        border.physicsBody!.isDynamic = false
+        border.physicsBody!.categoryBitMask = colliderType.bar.rawValue
+        border.physicsBody!.contactTestBitMask = colliderType.player.rawValue
+        border.physicsBody!.collisionBitMask = colliderType.player.rawValue
+        
+        border.position = isTopBorder ? CGPoint(x: self.frame.minX, y: self.frame.minY) : CGPoint(x: self.frame.minX, y: self.frame.maxY)
+        
+        addChild(border)
     }
     
     func createDuosLetters() {
         
-        let DLabel = createLetter(letter: "D", xOffset: -50, pauseInterval: 0)
+        let DLabel = createLetter(letter: "D", xOffset: Int(-self.view!.frame.height * 0.1), pauseInterval: 0)
         self.addChild(DLabel)
         
-        let ULabel = createLetter(letter: "U", xOffset: -5, pauseInterval: 0.4)
+        let ULabel = createLetter(letter: "U", xOffset: Int(-self.view!.frame.height * 0.035), pauseInterval: 0.4)
         self.addChild(ULabel)
         
-        let OLabel = createLetter(letter: "O", xOffset: 43, pauseInterval: 0.8)
+        let OLabel = createLetter(letter: "O", xOffset: Int(self.view!.frame.height * 0.035), pauseInterval: 0.8)
         self.addChild(OLabel)
         
-        let SLabel = createLetter(letter: "S", xOffset: 90, pauseInterval: 1.2)
+        let SLabel = createLetter(letter: "S", xOffset: Int(self.view!.frame.height * 0.1), pauseInterval: 1.2)
         self.addChild(SLabel)
         
         letterNodes.append(contentsOf: [DLabel, ULabel, OLabel, SLabel])
@@ -143,13 +165,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func createLetter(letter: String, xOffset: Int, pauseInterval : CGFloat) -> SKLabelNode {
         
         let letterLabel = SKLabelNode(fontNamed: "Verdana")
-        letterLabel.position = CGPoint(x: self.frame.midX + CGFloat(xOffset), y: height * 0.75)
-        letterLabel.setScale(height / 1110)
+        letterLabel.position = CGPoint(x: self.frame.midX + CGFloat(xOffset), y: height * 0.85)
+        letterLabel.setScale(0.5)
         letterLabel.text = letter
         
         let pauseLetter = SKAction.wait(forDuration: TimeInterval(pauseInterval))
-        let moveLetterUp = SKAction.moveTo(y: self.frame.midY + 210, duration: 2.5)
-        let moveLetterDown = SKAction.moveTo(y: self.frame.midY + 160, duration: 2.5)
+        let moveLetterUp = SKAction.moveTo(y: height * 0.91, duration: 2.5)
+        let moveLetterDown = SKAction.moveTo(y: height * 0.825, duration: 2.5)
         let moveLetter = SKAction.repeatForever(SKAction.sequence([moveLetterUp, moveLetterDown]))
         let movingLetter = SKAction.sequence([pauseLetter,moveLetter])
         
@@ -161,8 +183,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func createPlayLabel() {
 
         playLabel = SKLabelNode(fontNamed:"Verdana")
-        playLabel.position = CGPoint( x: self.frame.midX, y: height / 6 )
-        playLabel.setScale(0.75)
+        playLabel.position = CGPoint(x: self.frame.midX, y: height * 0.05)
+        playLabel.setScale(0.5)
         playLabel.text = "Tap To Start"
         self.addChild(playLabel)
     }
@@ -209,8 +231,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             number.removeFromParent()
             
             if number.text == "Go!" {
-                self.setScoreLabel()
-                self.gameIsPlaying = true
+                self.startGame()
             } else {
                 
                 self.createNumber(num: num - 1)
@@ -232,7 +253,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 
                 applyForceOnBall(ball: ballOne, isTopPlayer: true)
                 applyForceOnBall(ball: ballTwo, isTopPlayer: false)
-                print("force is being applied")
             }
             
         }
@@ -244,24 +264,45 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if gameIsPlaying {
             createGravities(ball: ballOne, isTopPlayer: true)
             createGravities(ball: ballTwo, isTopPlayer: false)
+            
+            if self.speed < 21 {
+                self.speed += 0.0006
+            }
         }
-        
-        
-        
     }
     
+    func didBegin(_ contact: SKPhysicsContact) {
+        //The player has made contact with the score Node which is invisible and in the empty spaces between both the moving obstacles and the obstalce and the borders
+        if (contact.bodyA.categoryBitMask & colliderType.score.rawValue) == colliderType.score.rawValue ||  (contact.bodyB.categoryBitMask & colliderType.score.rawValue) == colliderType.score.rawValue {
+            
+            //User has scored a point
+            score += 1
+            scoreLabelNode.text = String(score / 2)
+            
+            scoreLabelNode.run(SKAction.sequence([SKAction.scale(to: 1.5, duration:TimeInterval(0.1)), SKAction.scale(to: 1.0, duration:TimeInterval(0.1))]))
+            print("user scored")
+        }else{
+
+            //User Has Lost
+            print("user lost")
+            
+        }
+    }
 }
 
 //Play Screen
 extension GameScene {
     
     enum colliderType: UInt32 {
-        
         case player = 1
         case shape = 2
         case bar = 3
         case score = 4
-        case color = 5
+    }
+    
+    func startGame() {
+        setScoreLabel()
+        gameIsPlaying = true
     }
     
     func setPlayersToStartPosition(ball: SKSpriteNode, isTopPlayer: Bool) {
@@ -269,7 +310,7 @@ extension GameScene {
         ball.removeAllActions()
         
         let sign = isTopPlayer ? 1 : -1
-        let moveToStartPosition = SKAction.moveTo(y: height / 2 + CGFloat(sign * 190), duration: 0.5)
+        let moveToStartPosition = SKAction.moveTo(y: height / 2 + (CGFloat(sign) * (height / 3)), duration: 0.5)
         ball.run(moveToStartPosition, completion: {
             ball.removeAllActions()
         })
@@ -277,25 +318,26 @@ extension GameScene {
     
     func setScoreLabel() {
         
-        scoreLabelNode = SKLabelNode(fontNamed:"Verdana")
-        scoreLabelNode.position = CGPoint(x: self.frame.midX, y: self.frame.size.height * 0.8)
+        scoreLabelNode = SKLabelNode(fontNamed: "Verdana")
+        scoreLabelNode.position = CGPoint(x: self.frame.midX, y: height * 0.85)
         scoreLabelNode.zPosition = 100
+        scoreLabelNode.setScale(0.7)
         scoreLabelNode.text = String(score)
-        self.addChild(scoreLabelNode)
+        addChild(scoreLabelNode)
     }
     
     func createGravities(ball: SKSpriteNode, isTopPlayer: Bool) {
         
         let sign = isTopPlayer ? -1 : 1
-        ball.physicsBody?.applyForce(CGVector(dx: 0.0, dy: CGFloat(sign) * 17.85))
+        ball.physicsBody?.applyForce(CGVector(dx: 0.0, dy: CGFloat(sign) * 5))
     }
     
     func applyForceOnBall(ball: SKSpriteNode, isTopPlayer: Bool) {
         
         let sign = isTopPlayer ? 1 : -1
-        ball.physicsBody!.velocity = CGVector(dx: 0, dy: height / (CGFloat(sign) * 4.66))
-        //ball.physicsBody?.applyForce(CGVector(dx: 0.0, dy: CGFloat(sign) * 100))
+        ball.physicsBody!.velocity = CGVector(dx: 0, dy: height / (CGFloat(sign) * 3))
     }
+    
     
 }
 

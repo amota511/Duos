@@ -525,7 +525,7 @@ class levelTwo: SKScene, SKPhysicsContactDelegate {
                 if score/2 == 16 {
                     moving.speed = 0
                     
-                    self.gameView2.levelThreeFunc()
+              
                 }
                 
             } else {

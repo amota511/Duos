@@ -12,105 +12,6 @@ import SpriteKit
 import AVFoundation
 import GameKit
 
-extension SKNode {
-    class func unarchiveFromFile(_ file : String) -> SKNode? {
-        if let path = Bundle.main.path(forResource: file, ofType: "sks") {
-            let sceneData = try! Data(contentsOf: URL(fileURLWithPath: path), options: .mappedIfSafe)
-            let archiver = NSKeyedUnarchiver(forReadingWith: sceneData)
-            
-            archiver.setClass(self.classForKeyedUnarchiver(), forClassName: "SKScene")
-            let scene = archiver.decodeObject(forKey: NSKeyedArchiveRootObjectKey) as! GameScene
-            archiver.finishDecoding()
-            return scene
-        } else {
-            return nil
-        }
-    }
-    class func unarchiveFromFile1(_ file : String) -> SKNode? {
-        if let path = Bundle.main.path(forResource: file, ofType: "sks") {
-            let sceneData = try! Data(contentsOf: URL(fileURLWithPath: path), options: .mappedIfSafe)
-            let archiver = NSKeyedUnarchiver(forReadingWith: sceneData)
-            
-            archiver.setClass(self.classForKeyedUnarchiver(), forClassName: "SKScene")
-            let scene = archiver.decodeObject(forKey: NSKeyedArchiveRootObjectKey) as! levelOne
-            archiver.finishDecoding()
-            return scene
-        } else {
-            return nil
-        }
-    }
-    class func unarchiveFromFile2(_ file : String) -> SKNode? {
-        if let path = Bundle.main.path(forResource: file, ofType: "sks") {
-            let sceneData = try! Data(contentsOf: URL(fileURLWithPath: path), options: .mappedIfSafe)
-            let archiver = NSKeyedUnarchiver(forReadingWith: sceneData)
-            
-            archiver.setClass(self.classForKeyedUnarchiver(), forClassName: "SKScene")
-            let scene = archiver.decodeObject(forKey: NSKeyedArchiveRootObjectKey) as! levelTwo
-            archiver.finishDecoding()
-            return scene
-        } else {
-            return nil
-        }
-    }
-    class func unarchiveFromFile3(_ file : String) -> SKNode? {
-        if let path = Bundle.main.path(forResource: file, ofType: "sks") {
-            let sceneData = try! Data(contentsOf: URL(fileURLWithPath: path), options: .mappedIfSafe)
-            let archiver = NSKeyedUnarchiver(forReadingWith: sceneData)
-            
-            archiver.setClass(self.classForKeyedUnarchiver(), forClassName: "SKScene")
-            let scene = archiver.decodeObject(forKey: NSKeyedArchiveRootObjectKey) as! levelThree
-            archiver.finishDecoding()
-            return scene
-        } else {
-            return nil
-        }
-    }
-    class func unarchiveFromFile4(_ file : String) -> SKNode? {
-        if let path = Bundle.main.path(forResource: file, ofType: "sks") {
-            let sceneData = try! Data(contentsOf: URL(fileURLWithPath: path), options: .mappedIfSafe)
-            let archiver = NSKeyedUnarchiver(forReadingWith: sceneData)
-            
-            archiver.setClass(self.classForKeyedUnarchiver(), forClassName: "SKScene")
-            let scene = archiver.decodeObject(forKey: NSKeyedArchiveRootObjectKey) as! GameOver
-            archiver.finishDecoding()
-            return scene
-        } else {
-            return nil
-        }
-    }
-    
-    class func unarchiveFromFile5(_ file : String) -> SKNode? {
-        if let path = Bundle.main.path(forResource: file, ofType: "sks") {
-            let sceneData = try! Data(contentsOf: URL(fileURLWithPath: path), options: .mappedIfSafe)
-            let archiver = NSKeyedUnarchiver(forReadingWith: sceneData)
-            
-            archiver.setClass(self.classForKeyedUnarchiver(), forClassName: "SKScene")
-            let scene = archiver.decodeObject(forKey: NSKeyedArchiveRootObjectKey) as! levelEndless
-            archiver.finishDecoding()
-            return scene
-        } else {
-            return nil
-        }
-    }
-    
-
-/*
-class func unarchiveFromFile6(file : String) -> SKNode? {
-    if let path = NSBundle.mainBundle().pathForResource(file, ofType: "sks") {
-        let sceneData = try! NSData(contentsOfFile: path, options: .DataReadingMappedIfSafe)
-        let archiver = NSKeyedUnarchiver(forReadingWithData: sceneData)
-        
-        archiver.setClass(self.classForKeyedUnarchiver(), forClassName: "SKScene")
-        let scene = archiver.decodeObjectForKey(NSKeyedArchiveRootObjectKey) as! Tutorial
-        archiver.finishDecoding()
-        return scene
-    } else {
-        return nil
-    }
-}*/
-
-}
-
 import GoogleMobileAds
 
 class GameViewController: UIViewController {
@@ -123,26 +24,22 @@ class GameViewController: UIViewController {
     var musicTime: TimeInterval!
     
     var died = 0
-
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        loadAd()
+        createScene()
+        playBackgroundMusic()
+        
+    }
+    
     func loadAd() {
         interstitial = GADInterstitial(adUnitID: "ca-app-pub-3940256099942544/4411468910")
         
         print("load ad")
         let request = GADRequest()
         interstitial.load(request)
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        loadAd()
-        
-        GameStartFunc()
-
-        playAudio = try? AVAudioPlayer(contentsOf: startAudio)
-        playAudio.numberOfLoops = Int.max
-        playAudio.play()
-        
     }
     
     
@@ -153,6 +50,49 @@ class GameViewController: UIViewController {
             print("Ad wasn't ready")
         }
     }
+    
+    func createScene() {
+        print("create scene")
+
+        if let view = self.view as! SKView? {
+            // Load the SKScene from 'GameScene.sks'
+            if let scene = loadGameScene() as? GameScene {
+                // Set the scale mode to scale to fit the window
+                scene.scaleMode = .resizeFill
+                
+                print("should be working")
+                
+                // Present the scene
+                view.presentScene(scene)
+    
+            }
+            view.ignoresSiblingOrder = true
+        }
+    }
+    
+    func loadGameScene() -> SKNode? {
+
+        if let path = Bundle.main.path(forResource: "GameScene", ofType: "sks") {
+            let sceneData = try! Data(contentsOf: URL(fileURLWithPath: path), options: .mappedIfSafe)
+            let archiver = NSKeyedUnarchiver(forReadingWith: sceneData)
+            
+            archiver.setClass(GameScene.classForKeyedUnarchiver(), forClassName: "SKScene")
+            let scene = archiver.decodeObject(forKey: NSKeyedArchiveRootObjectKey) as! GameScene
+            archiver.finishDecoding()
+            return scene
+        } else {
+            return nil
+        }
+        
+    }
+    
+    func playBackgroundMusic() {
+        
+        playAudio = try? AVAudioPlayer(contentsOf: startAudio)
+        playAudio.numberOfLoops = Int.max
+        playAudio.play()
+    }
+
     
     func GameStartFunc(){
         
@@ -166,150 +106,25 @@ class GameViewController: UIViewController {
             skView.ignoresSiblingOrder = true
             
             /* Set the scale mode to scale to fit the window */
-            scene.scaleMode = .aspectFill
+            
+            //scene.scaleMode = .resizeFill
+//            scene.frame = skView.frame
+            
             skView.presentScene(scene)
             
             scene.parentViewController = self
         }
     }
     
-    func levelOneFunc(){
-        
-        
-        if let scene = levelOne.unarchiveFromFile1("GameScene") as? levelOne {
-            // Configure the view.
-            let skView = self.view as! SKView
-            skView.showsFPS = false
-            skView.showsNodeCount = false
-            
-            /* Sprite Kit applies additional optimizations to improve rendering performance */
-            skView.ignoresSiblingOrder = true
-            
-            
-            /* Set the scale mode to scale to fit the window */
-            scene.scaleMode = .aspectFill
-            skView.presentScene(scene)
-            scene.gameView1 = self
-            
-        }   
-    }
-    
-    func levelTwoFunc(){
-        
-        
-        if let scene = levelTwo.unarchiveFromFile2("GameScene") as? levelTwo {
-            // Configure the view.
-            let skView = self.view as! SKView
-            skView.showsFPS = false
-            skView.showsNodeCount = false
-            
-            /* Sprite Kit applies additional optimizations to improve rendering performance */
-            skView.ignoresSiblingOrder = true
-            
-            /* Set the scale mode to scale to fit the window */
-            scene.scaleMode = .aspectFill
-            skView.presentScene(scene)
-            scene.gameView2 = self
-            
-        }
-        
-        
-        
-    }
-    
-    func levelThreeFunc(){
-        
-        
-        if let scene = levelThree.unarchiveFromFile3("GameScene") as? levelThree {
-            // Configure the view.
-            let skView = self.view as! SKView
-            skView.showsFPS = false
-            skView.showsNodeCount = false
-            
-            /* Sprite Kit applies additional optimizations to improve rendering performance */
-            skView.ignoresSiblingOrder = true
-            
-            /* Set the scale mode to scale to fit the window */
-            scene.scaleMode = .aspectFill
-            skView.presentScene(scene)
-            scene.gameView3 = self
-            
-        }
-        
-        
-        
-    }
     
     func gameOverFunc(){
         
         died += 1
         if died == 2 {
-            print("show add")
             showAd()
-            print("close ad")
+            loadAd()
             died = 0
         }
-        loadAd()
-        
-        if let scene = GameOver.unarchiveFromFile4("GameScene") as? GameOver {
-            // Configure the view.
-            let skView = self.view as! SKView
-            skView.showsFPS = false
-            skView.showsNodeCount = false
-            
-            /* Sprite Kit applies additional optimizations to improve rendering performance */
-            skView.ignoresSiblingOrder = true
-            
-            /* Set the scale mode to scale to fit the window */
-            scene.scaleMode = .aspectFill
-            skView.presentScene(scene)
-            scene.gameView4 = self
-            
-        }
-        
-        
-    }
-    
-    func levelEndlessFunc(){
-        
-        
-        if let scene = levelEndless.unarchiveFromFile5("GameScene") as? levelEndless {
-            // Configure the view.
-            let skView = self.view as! SKView
-            skView.showsFPS = false
-            skView.showsNodeCount = false
-            
-            /* Sprite Kit applies additional optimizations to improve rendering performance */
-            skView.ignoresSiblingOrder = true
-            
-            /* Set the scale mode to scale to fit the window */
-            scene.scaleMode = .aspectFill
-            skView.presentScene(scene)
-            scene.gameView5 = self
-            
-        }
-    }
-    
-    func TutorialFunc(){
-        /*
-        
-        if let scene = Tutorial.unarchiveFromFile5("GameScene") as? Tutorial {
-            // Configure the view.
-            let skView = self.view as! SKView
-            skView.showsFPS = !false
-            skView.showsNodeCount = !false
-            
-            /* Sprite Kit applies additional optimizations to improve rendering performance */
-            skView.ignoresSiblingOrder = true
-            
-            /* Set the scale mode to scale to fit the window */
-            scene.scaleMode = .AspectFill
-            skView.presentScene(scene)
-            scene.gameView6 = self
-            
-        }
-        
-        */
         
     }
     
@@ -349,5 +164,21 @@ class GameViewController: UIViewController {
     
     override var prefersStatusBarHidden : Bool {
         return true
+    }
+}
+
+extension SKNode {
+    class func unarchiveFromFile(_ file : String) -> SKNode? {
+        if let path = Bundle.main.path(forResource: file, ofType: "sks") {
+            let sceneData = try! Data(contentsOf: URL(fileURLWithPath: path), options: .mappedIfSafe)
+            let archiver = NSKeyedUnarchiver(forReadingWith: sceneData)
+            
+            archiver.setClass(self.classForKeyedUnarchiver(), forClassName: "SKScene")
+            let scene = archiver.decodeObject(forKey: NSKeyedArchiveRootObjectKey) as! GameScene
+            archiver.finishDecoding()
+            return scene
+        } else {
+            return nil
+        }
     }
 }
