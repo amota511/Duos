@@ -86,33 +86,15 @@ class levelOne: SKScene, SKPhysicsContactDelegate {
         moving.isPaused = false
         
         
-        
-        darkGreyCircleTexture = SKTexture(imageNamed: "Dark Grey Circle")
-        darkGreyCircleTexture.filteringMode = .nearest
-        
-        lightGreyCircleTexture = SKTexture(imageNamed: "Light Grey Circle")
-        lightGreyCircleTexture.filteringMode = .nearest
-        
+        darkGreyCircleTexture = SKTexture(imageNamed: "ballPlayer")
+        lightGreyCircleTexture = SKTexture(imageNamed: "ballPlayer")
         darkGreySquareTexture = SKTexture(imageNamed: "Dark Grey Square")
-        darkGreySquareTexture.filteringMode = .nearest
-        
         lightGreySquareTexture = SKTexture(imageNamed: "Light Grey Square")
-        lightGreySquareTexture.filteringMode = .nearest
-        
         darkGreyTraingleTexture = SKTexture(imageNamed: "Dark Grey Triangle")
-        darkGreyTraingleTexture.filteringMode = .nearest
-        
         lightGreyTriangleTexture = SKTexture(imageNamed: "Light Grey Triangle")
-        lightGreyTriangleTexture.filteringMode = .nearest
-        
         blackBallTexture = SKTexture(imageNamed: "NewPlayers1")
-        blackBallTexture.filteringMode = .nearest
-        
         greyBallTexture = SKTexture(imageNamed: "NewPlayers1")
-        greyBallTexture.filteringMode = .nearest
-        
         greyBarTexture = SKTexture(imageNamed: "Long Grey Bar ")
-        greyBarTexture.filteringMode = .nearest
         
         greyBarNode = SKSpriteNode(texture: greyBarTexture)
         greyBarNode.setScale(1.0)
@@ -261,7 +243,7 @@ class levelOne: SKScene, SKPhysicsContactDelegate {
         trianglePair.addChild(triangleDown)
         
         let contactNode3 = SKNode()
-        contactNode3.position = CGPoint( x: triangleDown.size.width + blackBall.size.width / 2, y: self.frame.minY )
+        contactNode3.position = CGPoint(x: triangleDown.size.width + blackBall.size.width / 2, y: self.frame.minY )
         contactNode3.physicsBody = SKPhysicsBody(rectangleOf: CGSize( width: triangleUp.size.width, height: self.frame.size.height))
         contactNode3.physicsBody?.isDynamic = false
         contactNode3.physicsBody?.categoryBitMask = colliderType.score.rawValue

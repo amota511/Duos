@@ -12,7 +12,7 @@ import SpriteKit
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
-    var startScreenNode: SKNode!
+    var hasRemovedHomeScreen = false
     
     var greyBarNode: SKSpriteNode!
     
@@ -20,9 +20,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var ballTwo: SKSpriteNode!
     var BallPair: SKNode!
     
-    var scoreLabelNode: SKLabelNode!
-    
-    var PlayLabel: SKLabelNode!
+    var playLabel: SKLabelNode!
     
     var L1 = SKLabelNode(fontNamed:"Verdana")
     var L2 = SKLabelNode(fontNamed:"Verdana")
@@ -49,11 +47,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         setBackground()
 
         createPlayers()
-        createDuosLetters()
         createBar()
-        createPlayLabel()
-        createLevelButtons()
-        createHighscoreLabel()
+        
+        createHomeScreen()
     }
     
     func setBackground() {
@@ -62,10 +58,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.backgroundColor = skyColor
     }
     
-    func createStartScreenNode() {
-        
-        startScreenNode = SKNode()
-        
+    func createHomeScreen() {
+    
+        createDuosLetters()
+        createPlayLabel()
     }
     
     func createPlayers() {
@@ -136,8 +132,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func createLetter(letter: String, xOffset: Int, pauseInterval : CGFloat) -> SKLabelNode {
         
         let letterLabel = SKLabelNode(fontNamed: "Verdana")
-        letterLabel.position = CGPoint(x: self.frame.midX + CGFloat(xOffset), y: 3 * self.frame.height / 4)
-        letterLabel.setScale(self.frame.size.height / 1110)
+        letterLabel.position = CGPoint(x: self.frame.midX + CGFloat(xOffset), y: height * 0.75)
+        letterLabel.setScale(height / 1110)
         letterLabel.text = letter
         
         let pauseLetter = SKAction.wait(forDuration: TimeInterval(pauseInterval))
@@ -153,71 +149,73 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func createBar() {
         
-        let greyBarTexture = SKTexture(imageNamed: "Long Grey Bar ")
-        greyBarTexture.filteringMode = .nearest
+        let greyBarTexture = SKTexture(imageNamed: "Bar")
         greyBarNode = SKSpriteNode(texture: greyBarTexture)
-        greyBarNode.setScale(1.0)
         greyBarNode.zPosition = -1
-        greyBarNode.position = CGPoint(x: self.frame.size.width / 2, y: self.frame.size.height / 2 )
+        greyBarNode.position = CGPoint(x: width / 2, y: height / 2 )
         greyBarNode.physicsBody = SKPhysicsBody(rectangleOf: greyBarNode.size)
         greyBarNode.physicsBody?.isDynamic = false
         self.addChild(greyBarNode)
     }
     
+    
     func createPlayLabel() {
 
-        PlayLabel = SKLabelNode(fontNamed:"Verdana")
-        PlayLabel.position = CGPoint(x: self.frame.midX, y: self.frame.size.height / 2.5)
-        PlayLabel.zPosition = 100
-        PlayLabel.setScale(self.frame.size.height / 1110)
-        PlayLabel.text = String("Select Level:")
-        self.addChild(PlayLabel)
-    }
-    
-    func createLevelButtons() {
-        
-        let levelOneButton = SKTexture(imageNamed: "Stage1")
-        levelOneButton.filteringMode = .nearest
-        stageOneButton = SKSpriteNode(texture: levelOneButton)
-        stageOneButton.setScale(self.frame.size.height / 1110)
-        stageOneButton.zPosition = 10
-        stageOneButton.position = CGPoint(x: self.frame.midX - 150,y: self.frame.size.height / 3.35 )
-        self.addChild(stageOneButton)
-        
-        
-        let levelTwoButton = SKTexture(imageNamed: "Stage2")
-        levelTwoButton.filteringMode = .nearest
-        stageTwoButton = SKSpriteNode(texture: levelTwoButton)
-        stageTwoButton.setScale(self.frame.size.height / 1110)
-        stageTwoButton.zPosition = 10
-        stageTwoButton.position = CGPoint(x: self.frame.midX,y: self.frame.size.height / 3.35 )
-        self.addChild(stageTwoButton)
-        
-        
-        let levelThreeButton = SKTexture(imageNamed: "Stage3")
-        levelThreeButton.filteringMode = .nearest
-        stageThreeButton = SKSpriteNode(texture: levelThreeButton)
-        stageThreeButton.setScale(self.frame.size.height / 1110)
-        stageThreeButton.zPosition = 10
-        stageThreeButton.position = CGPoint(x: self.frame.midX + 150,y: self.frame.size.height / 3.35 )
-        self.addChild(stageThreeButton)
-    }
-    
-    func createHighscoreLabel() {
-        
-        let highestScore = UserDefaults().integer(forKey: "Highest Score")
-        
-        
-        scoreLabelNode = SKLabelNode(fontNamed:"Verdana")
-        scoreLabelNode.position = CGPoint( x: self.frame.midX, y: self.frame.size.height / 6 )
-        scoreLabelNode.zPosition = 100
-        scoreLabelNode.setScale(self.frame.size.height / 1110)
-        scoreLabelNode.text = String("Highest Score: \(highestScore)")
-        self.addChild(scoreLabelNode)
+        playLabel = SKLabelNode(fontNamed:"Verdana")
+        playLabel.position = CGPoint( x: self.frame.midX, y: height / 6 )
+        playLabel.setScale(0.75)
+        playLabel.text = "Tap To Start"
+        self.addChild(playLabel)
     }
     
     func removeStartScreen() {
         
+        //remove duos label
+        for letter in letterNodes {
+            
+            letter.removeAllActions()
+            letter.run(SKAction.moveTo(y: height + letter.fontSize, duration: 0.4), completion: {
+                letter.removeFromParent()
+            })
+        }
+        
+        playLabel.run(SKAction.moveTo(y: 0 - playLabel.fontSize, duration: 0.4), completion: {
+            
+            self.playLabel.removeFromParent()
+            
+            self.gameStartCountdown()
+        })
+        
+        
+    }
+    
+    
+    func gameStartCountdown() {
+        
+        createNumber(num: 3)
+        
+    }
+    
+    func createNumber(num : Int) {
+        
+        let number = SKLabelNode(fontNamed: "Verdana")
+        number.position = CGPoint(x: self.frame.midX, y: self.frame.midY + 15)
+        number.setScale(3)
+        number.text = num == 0 ? "Go!" : String(num)
+        number.fontColor = SKColor.lightText
+        
+        
+        addChild(number)
+        
+        number.run(SKAction.sequence([SKAction.scale(by: 1.05, duration: 0.1), SKAction.fadeOut(withDuration: 0.9)])) {
+            number.removeFromParent()
+            if number.text == "Go!" {
+                
+            } else {
+                self.createNumber(num: num - 1)
+            }
+            
+        }
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -226,21 +224,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
            
             let location = touch.location(in: self)
  
-            if self.atPoint(location) == self.stageOneButton{
-            
-                self.gameView0.levelOneFunc()
-                
-            }
-            
-            if self.atPoint(location) == self.stageTwoButton{
-                
-                self.gameView0.levelTwoFunc()
-                
-            }
-            
-            if self.atPoint(location) == self.stageThreeButton{
-                
-                self.gameView0.levelThreeFunc()
+            if !hasRemovedHomeScreen {
+                self.removeStartScreen()
+                hasRemovedHomeScreen = true
+            } else {
                 
             }
             
