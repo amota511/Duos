@@ -13,6 +13,9 @@ import SpriteKit
 //Home Screen
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
+    var parentViewController: GameViewController!
+    
+    /**************************Home Screen**************************/
     var hasRemovedHomeScreen = false
     
     var barNode: SKSpriteNode!
@@ -30,7 +33,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.frame.size.width
     }()
     
-    var parentViewController: GameViewController!
+    /**************************Play Screen**************************/
+    var score = 0
+    var scoreLabelNode: SKLabelNode!
+    var gameIsPlaying = false
     
     override func didMove(to view: SKView) {
         
@@ -100,6 +106,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         ballPlayer.physicsBody!.isDynamic = true
         ballPlayer.physicsBody!.allowsRotation = false
         ballPlayer.physicsBody!.affectedByGravity = false
+
+        ballPlayer.physicsBody!.categoryBitMask = colliderType.player.rawValue
+        ballPlayer.physicsBody!.contactTestBitMask = colliderType.shape.rawValue | colliderType.bar.rawValue
+        ballPlayer.physicsBody!.collisionBitMask = colliderType.shape.rawValue | colliderType.bar.rawValue
     }
     
     func createBar() {
@@ -176,10 +186,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         })
     }
     
-    
     func gameStartCountdown() {
         
         createNumber(num: 3)
+        setPlayersToStartPosition(ball: ballOne, isTopPlayer: true)
+        setPlayersToStartPosition(ball: ballTwo, isTopPlayer: false)
     }
     
     func createNumber(num : Int) {
@@ -198,7 +209,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             number.removeFromParent()
             
             if number.text == "Go!" {
-                
+                self.setScoreLabel()
+                self.gameIsPlaying = true
             } else {
                 
                 self.createNumber(num: num - 1)
@@ -216,8 +228,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if !hasRemovedHomeScreen {
                 self.removeStartScreen()
                 hasRemovedHomeScreen = true
-            } else {
+            } else if gameIsPlaying {
                 
+                applyForceOnBall(ball: ballOne, isTopPlayer: true)
+                applyForceOnBall(ball: ballTwo, isTopPlayer: false)
+                print("force is being applied")
             }
             
         }
@@ -226,7 +241,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     override func update(_ currentTime: TimeInterval) {
         /* Called before each frame is rendered */
         
-        
+        if gameIsPlaying {
+            createGravities(ball: ballOne, isTopPlayer: true)
+            createGravities(ball: ballTwo, isTopPlayer: false)
+        }
         
         
         
@@ -236,6 +254,48 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
 //Play Screen
 extension GameScene {
+    
+    enum colliderType: UInt32 {
+        
+        case player = 1
+        case shape = 2
+        case bar = 3
+        case score = 4
+        case color = 5
+    }
+    
+    func setPlayersToStartPosition(ball: SKSpriteNode, isTopPlayer: Bool) {
+        
+        ball.removeAllActions()
+        
+        let sign = isTopPlayer ? 1 : -1
+        let moveToStartPosition = SKAction.moveTo(y: height / 2 + CGFloat(sign * 190), duration: 0.5)
+        ball.run(moveToStartPosition, completion: {
+            ball.removeAllActions()
+        })
+    }
+    
+    func setScoreLabel() {
+        
+        scoreLabelNode = SKLabelNode(fontNamed:"Verdana")
+        scoreLabelNode.position = CGPoint(x: self.frame.midX, y: self.frame.size.height * 0.8)
+        scoreLabelNode.zPosition = 100
+        scoreLabelNode.text = String(score)
+        self.addChild(scoreLabelNode)
+    }
+    
+    func createGravities(ball: SKSpriteNode, isTopPlayer: Bool) {
+        
+        let sign = isTopPlayer ? -1 : 1
+        ball.physicsBody?.applyForce(CGVector(dx: 0.0, dy: CGFloat(sign) * 17.85))
+    }
+    
+    func applyForceOnBall(ball: SKSpriteNode, isTopPlayer: Bool) {
+        
+        let sign = isTopPlayer ? 1 : -1
+        ball.physicsBody!.velocity = CGVector(dx: 0, dy: height / (CGFloat(sign) * 4.66))
+        //ball.physicsBody?.applyForce(CGVector(dx: 0.0, dy: CGFloat(sign) * 100))
+    }
     
 }
 
