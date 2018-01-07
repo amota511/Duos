@@ -12,7 +12,7 @@ import SpriteKit
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
-    var startScreenNode = SKNode()
+    var startScreenNode: SKNode!
     
     var greyBarNode: SKSpriteNode!
     
@@ -48,7 +48,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         setBackground()
 
-        creaPlayers()
+        createPlayers()
         createDuosLetters()
         createBar()
         createPlayLabel()
@@ -62,37 +62,50 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.backgroundColor = skyColor
     }
     
-    func creaPlayers() {
+    func createStartScreenNode() {
+        
+        startScreenNode = SKNode()
+        
+    }
+    
+    func createPlayers() {
        
+        let ballSize = CGSize(width: height / 20, height: height / 20)
+        
         let ballOneTexture = SKTexture(imageNamed: "ballPlayer")
-        ballOneTexture.filteringMode = .nearest
         
         ballOne = SKSpriteNode(texture: ballOneTexture)
-        ballOne.setScale(0.6)
+        ballOne.size = ballSize
         ballOne.position = CGPoint(x: width / 7, y: height / 2 + 70)
         ballOne.zPosition = -1
         
         createBallPhysicsBody(ballPlayer: ballOne)
-
-        let ballOneMoveUp = SKAction.moveTo(y: height / 2 + 190, duration: 3.5)
-        let ballOneMoveDown = SKAction.moveTo(y: height / 2 + 65, duration: 3.5)
-        let antiGravity = SKAction.repeatForever(SKAction.sequence([ballOneMoveUp,ballOneMoveDown]))
-        ballOne.run(antiGravity)
-        self.addChild(ballOne)
+        createBallGravity(ball: ballOne, isAntiGravity: false)
         
         let ballTwoTexture = SKTexture(imageNamed: "ballPlayer")
         ballTwo = SKSpriteNode(texture: ballTwoTexture)
-        ballTwo.setScale(0.6)
+        ballTwo.size = ballSize
         ballTwo.position = CGPoint(x: width / 7, y: height / 2 - 70)
         
         createBallPhysicsBody(ballPlayer: ballTwo)
+        createBallGravity(ball: ballTwo, isAntiGravity: true)
         
-        let ballTwoMoveUp = SKAction.moveTo(y: height / 2 - 190, duration: 3.5)
-        let ballTwoMoveDown = SKAction.moveTo(y: height / 2 - 65, duration: 3.5)
-        let gravity = SKAction.repeatForever(SKAction.sequence([ballTwoMoveUp,ballTwoMoveDown]))
-        ballTwo.run(gravity)
-        addChild(ballTwo)
+    }
+    
+    func createBallGravity(ball: SKSpriteNode, isAntiGravity: Bool) {
         
+        //if antiGravity == true use a negative number to move the ball first up then down instead of the down then up
+        let sign = isAntiGravity ? -1 : 1
+        
+        //Actions to move ballPlayers up and down
+        let ballMoveUp = SKAction.moveTo(y: height / 2 + CGFloat(sign * 190), duration: 3.5)
+        let ballMoveDown = SKAction.moveTo(y: height / 2 + CGFloat(sign * 65), duration: 3.5)
+        
+        //create an infinte loop of the animation
+        let gravity = SKAction.repeatForever(SKAction.sequence([ballMoveUp, ballMoveDown]))
+        ball.run(gravity)
+        
+        addChild(ball)
     }
     
     func createBallPhysicsBody(ballPlayer: SKSpriteNode) {
@@ -105,22 +118,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func createDuosLetters() {
         
-        let DLabel = moveLetter(letter: "D", xOffset: -50, pauseInterval: 0)
+        let DLabel = createLetter(letter: "D", xOffset: -50, pauseInterval: 0)
         self.addChild(DLabel)
         
-        let ULabel = moveLetter(letter: "U", xOffset: -5, pauseInterval: 0.4)
+        let ULabel = createLetter(letter: "U", xOffset: -5, pauseInterval: 0.4)
         self.addChild(ULabel)
         
-        let OLabel = moveLetter(letter: "O", xOffset: 43, pauseInterval: 0.8)
+        let OLabel = createLetter(letter: "O", xOffset: 43, pauseInterval: 0.8)
         self.addChild(OLabel)
         
-        let SLabel = moveLetter(letter: "S", xOffset: 90, pauseInterval: 1.2)
+        let SLabel = createLetter(letter: "S", xOffset: 90, pauseInterval: 1.2)
         self.addChild(SLabel)
         
         letterNodes.append(contentsOf: [DLabel, ULabel, OLabel, SLabel])
     }
     
-    func moveLetter(letter: String, xOffset: Int, pauseInterval : CGFloat) -> SKLabelNode {
+    func createLetter(letter: String, xOffset: Int, pauseInterval : CGFloat) -> SKLabelNode {
         
         let letterLabel = SKLabelNode(fontNamed: "Verdana")
         letterLabel.position = CGPoint(x: self.frame.midX + CGFloat(xOffset), y: 3 * self.frame.height / 4)
