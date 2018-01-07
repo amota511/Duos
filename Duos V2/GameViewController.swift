@@ -169,7 +169,7 @@ class GameViewController: UIViewController {
             scene.scaleMode = .aspectFill
             skView.presentScene(scene)
             
-            scene.gameView0 = self
+            scene.parentViewController = self
         }
     }
     

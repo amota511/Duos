@@ -10,28 +10,16 @@
 
 import SpriteKit
 
+//Home Screen
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var hasRemovedHomeScreen = false
     
-    var greyBarNode: SKSpriteNode!
-    
+    var barNode: SKSpriteNode!
     var ballOne: SKSpriteNode!
     var ballTwo: SKSpriteNode!
-    var BallPair: SKNode!
     
     var playLabel: SKLabelNode!
-    
-    var L1 = SKLabelNode(fontNamed:"Verdana")
-    var L2 = SKLabelNode(fontNamed:"Verdana")
-    var L3 = SKLabelNode(fontNamed:"Verdana")
-    
-    var stageOneButton: SKSpriteNode!
-    var stageTwoButton: SKSpriteNode!
-    var stageThreeButton: SKSpriteNode!
-    
-    var gameView0: GameViewController!
-    
     var letterNodes = [SKLabelNode]()
     
     lazy var height = {
@@ -41,7 +29,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     lazy var width = {
         self.frame.size.width
     }()
- 
+    
+    var parentViewController: GameViewController!
+    
     override func didMove(to view: SKView) {
         
         setBackground()
@@ -112,6 +102,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         ballPlayer.physicsBody!.affectedByGravity = false
     }
     
+    func createBar() {
+        
+        let barTexture = SKTexture(imageNamed: "Bar")
+        barNode = SKSpriteNode(texture: barTexture)
+        barNode.zPosition = -1
+        barNode.position = CGPoint(x: width / 2, y: height / 2 )
+        barNode.physicsBody = SKPhysicsBody(rectangleOf: barNode.size)
+        barNode.physicsBody?.isDynamic = false
+        self.addChild(barNode)
+    }
+    
     func createDuosLetters() {
         
         let DLabel = createLetter(letter: "D", xOffset: -50, pauseInterval: 0)
@@ -146,19 +147,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         return letterLabel
     }
-    
-    func createBar() {
-        
-        let greyBarTexture = SKTexture(imageNamed: "Bar")
-        greyBarNode = SKSpriteNode(texture: greyBarTexture)
-        greyBarNode.zPosition = -1
-        greyBarNode.position = CGPoint(x: width / 2, y: height / 2 )
-        greyBarNode.physicsBody = SKPhysicsBody(rectangleOf: greyBarNode.size)
-        greyBarNode.physicsBody?.isDynamic = false
-        self.addChild(greyBarNode)
-    }
-    
-    
+
     func createPlayLabel() {
 
         playLabel = SKLabelNode(fontNamed:"Verdana")
@@ -185,15 +174,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             self.gameStartCountdown()
         })
-        
-        
     }
     
     
     func gameStartCountdown() {
         
         createNumber(num: 3)
-        
     }
     
     func createNumber(num : Int) {
@@ -208,10 +194,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         addChild(number)
         
         number.run(SKAction.sequence([SKAction.scale(by: 1.05, duration: 0.1), SKAction.fadeOut(withDuration: 0.9)])) {
+            
             number.removeFromParent()
+            
             if number.text == "Go!" {
                 
             } else {
+                
                 self.createNumber(num: num - 1)
             }
             
@@ -242,6 +231,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         
     }
+    
+}
+
+//Play Screen
+extension GameScene {
     
 }
 
