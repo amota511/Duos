@@ -225,6 +225,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func gameStartCountdown() {
         
+        self.parentViewController.numOfGamesPlayed += 1
+        
         createNumber(num: 3)
         setPlayersToStartPosition(ball: ballOne, isTopPlayer: true)
         setPlayersToStartPosition(ball: ballTwo, isTopPlayer: false)
@@ -341,7 +343,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
             
             //Show Ad
-            //parentViewController.gameOverFunc()
+            parentViewController.gameOverFunc()
             
             //Show dead screen
             

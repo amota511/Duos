@@ -14,7 +14,11 @@ import GameKit
 
 import GoogleMobileAds
 
-class GameViewController: UIViewController {
+protocol NumberOfGamesPlayedDelegate {
+    var numOfGamesPlayed: Int {get set}
+}
+
+class GameViewController: UIViewController, NumberOfGamesPlayedDelegate {
     
     var interstitial: GADInterstitial!
     
@@ -22,6 +26,8 @@ class GameViewController: UIViewController {
     var playAudio : AVAudioPlayer!
     var NumberLevel = 0
     var musicTime: TimeInterval!
+    
+    var numOfGamesPlayed = 0
     
     var died = 0
     
@@ -119,13 +125,17 @@ class GameViewController: UIViewController {
     
     func gameOverFunc(){
         
-        died += 1
-        if died == 2 {
+//        died += 1
+//        if died == 2 {
+//            showAd()
+//            loadAd()
+//            died = 0
+//        }
+        if numOfGamesPlayed == 2{
             showAd()
             loadAd()
-            died = 0
+            numOfGamesPlayed = 0
         }
-        
     }
     
     func musicControlFunction(){
