@@ -46,6 +46,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         [SKTexture(imageNamed: "Light Grey Circle"), SKTexture(imageNamed: "Dark Grey Circle"), SKTexture(imageNamed: "Light Grey Square"), SKTexture(imageNamed: "Dark Grey Square"), SKTexture(imageNamed: "Light Grey Triangle"), SKTexture(imageNamed: "Dark Grey Triangle")]
     
     var shapes = SKNode()
+    var shouldRewind = false
+    var shapeTravelTime: CGFloat = 8
     
     override func didMove(to view: SKView) {
         
@@ -80,23 +82,27 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let ballSize = CGSize(width: height / 16, height: height / 16)
         
         let ballOneTexture = SKTexture(imageNamed: "ballPlayer")
-        
         ballOne = SKSpriteNode(texture: ballOneTexture)
         ballOne.size = ballSize
         ballOne.position = CGPoint(x: width / 7, y: height / 2 + 70)
-        ballOne.zPosition = -1
-        
-        createBallPhysicsBody(ballPlayer: ballOne)
-        createBallGravity(ball: ballOne, isAntiGravity: false)
-        
+        addChild(ballOne)
+
         let ballTwoTexture = SKTexture(imageNamed: "ballPlayer")
         ballTwo = SKSpriteNode(texture: ballTwoTexture)
         ballTwo.size = ballSize
         ballTwo.position = CGPoint(x: width / 7, y: height / 2 - 70)
+        addChild(ballTwo)
+        
+        createBallPhysics()
+    }
+    
+    func createBallPhysics() {
+        
+        createBallPhysicsBody(ballPlayer: ballOne)
+        createBallGravity(ball: ballOne, isAntiGravity: false)
         
         createBallPhysicsBody(ballPlayer: ballTwo)
         createBallGravity(ball: ballTwo, isAntiGravity: true)
-        
     }
     
     func createBallGravity(ball: SKSpriteNode, isAntiGravity: Bool) {
@@ -111,8 +117,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //create an infinte loop of the animation
         let gravity = SKAction.repeatForever(SKAction.sequence([ballMoveUp, ballMoveDown]))
         ball.run(gravity)
-        
-        addChild(ball)
     }
     
     func createBallPhysicsBody(ballPlayer: SKSpriteNode) {
@@ -258,26 +262,52 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let location = touch.location(in: self)
  
             if !hasRemovedHomeScreen {
+                
                 self.removeStartScreen()
                 hasRemovedHomeScreen = true
             } else if gameIsPlaying {
                 
                 applyForceOnBall(ball: ballOne, isTopPlayer: true)
                 applyForceOnBall(ball: ballTwo, isTopPlayer: false)
+            } else if shouldRewind {
+                
+                for shape in shapes.children {
+                    shape.removeAllActions()
+                }
+                shouldRewind = false
+                removeAllActions()
+                shapes.isPaused = false
+                
+                run(SKAction.run {
+                    for shape in self.shapes.children {
+                        self.rewindAndRemoveShape(shape: shape)
+                    }
+                    }, completion: {
+                        print("The shapes have been removed")
+
+                        self.createBallPhysics()
+                        
+                        self.setPlayersToStartPosition(ball: self.ballOne, isTopPlayer: true)
+                        self.setPlayersToStartPosition(ball: self.ballTwo, isTopPlayer: false)     
+                })
             }
-            
         }
-        
     }
+    
     override func update(_ currentTime: TimeInterval) {
         /* Called before each frame is rendered */
         
         if gameIsPlaying {
+            
             createGravities(ball: ballOne, isTopPlayer: true)
             createGravities(ball: ballTwo, isTopPlayer: false)
             
-            if self.speed < 21 {
-                self.speed += 0.0006
+            if speed < 21 {
+                speed += 0.0006
+            }
+            
+            if shapeTravelTime > 5 {
+                shapeTravelTime -= 0.0005
             }
         }
     }
@@ -291,11 +321,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             scoreLabelNode.text = String(score / 2)
             
             scoreLabelNode.run(SKAction.sequence([SKAction.scale(to: 1.5, duration:TimeInterval(0.1)), SKAction.scale(to: 1.0, duration:TimeInterval(0.1))]))
-            print("user scored")
-        }else{
+            
+        }else {
 
             //User Has Lost
-            print("user lost")
+            
+            
+            if gameIsPlaying {
+                
+                shapes.isPaused = true
+                shouldRewind = true
+                gameIsPlaying = false
+                
+                removeAllActions()
+                
+                speed = 1.0
+                shapeTravelTime = 8
+            }
             
             //Show Ad
             //parentViewController.gameOverFunc()
@@ -333,8 +375,11 @@ extension GameScene {
         ball.removeAllActions()
         
         let sign = isTopPlayer ? 1 : -1
-        let moveToStartPosition = SKAction.moveTo(y: height / 2 + (CGFloat(sign) * (height / 3)), duration: 0.5)
-        ball.run(moveToStartPosition, completion: {
+        let moveToYStartPosition = SKAction.moveTo(y: height / 2 + (CGFloat(sign) * (height / 3)), duration: 0.5)
+        let moveToXStartPosition = SKAction.moveTo(x: width / 7, duration: 0.5)
+        
+        ball.run(SKAction.sequence([moveToYStartPosition, moveToXStartPosition]), completion: {
+            print("balls set")
             ball.removeAllActions()
         })
     }
@@ -377,7 +422,7 @@ extension GameScene {
         let shapeGap = self.height * 0.4
         
         let shapePair = SKNode()
-        shapePair.position = CGPoint(x: width + textures[index].size().width * 2, y: 0)
+        shapePair.position = CGPoint(x: width, y: 0)
         shapePair.zPosition = -10
         
         let height = UInt32(self.height * 0.4)
@@ -395,7 +440,6 @@ extension GameScene {
         
         shapePair.addChild(topShape)
         
-        
         let bottomShape = SKSpriteNode(texture: textures[index + 1])
         bottomShape.setScale(0.2)
         bottomShape.position = CGPoint(x: 0.0, y: y + bottomShape.frame.size.height + shapeGap)
@@ -410,23 +454,37 @@ extension GameScene {
         
         let scoreContactNode = SKNode()
         scoreContactNode.position = CGPoint(x: bottomShape.size.width + ballOne.size.width / 2, y: self.frame.minY )
-        scoreContactNode.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: topShape.size.width, height: self.frame.size.height))
+        scoreContactNode.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: topShape.size.width, height: self.height))
         scoreContactNode.physicsBody!.isDynamic = false
         scoreContactNode.physicsBody!.categoryBitMask = colliderType.score.rawValue
         scoreContactNode.physicsBody!.contactTestBitMask = colliderType.player.rawValue
         shapePair.addChild(scoreContactNode)
 
-        shapePair.run(moveAndRemoveShape(index: index))
+        shapePair.run(moveAndRemoveShape(index: index)) {
+            print("shape removed after it left the screen")
+        }
         
         shapes.addChild(shapePair)
     }
     
     func moveAndRemoveShape(index: Int) -> SKAction{
         
-        let moveShape = SKAction.moveBy(x: distanceToMove * textures[index].size().width, y: 0.0, duration: TimeInterval(1.25 * -distanceToMove))
+        let moveShape = SKAction.moveBy(x: distanceToMove, y: 0.0, duration: TimeInterval(shapeTravelTime))
         let removeShape = SKAction.removeFromParent()
         
         return SKAction.sequence([moveShape, removeShape])
+    }
+    
+    func rewindAndRemoveShape(shape: SKNode) {
+        
+        let distanceToRewind = (width - shape.position.x) + textures[0].size().width
+        
+        let moveShape = SKAction.moveBy(x: distanceToRewind, y: 0.0, duration: TimeInterval(1))
+        let removeShape = SKAction.removeFromParent()
+
+        shape.run(SKAction.sequence([moveShape, removeShape])) {
+            print("shape removed")
+        }
     }
 }
 
