@@ -287,8 +287,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
                         self.createBallPhysics()
                         
-                        self.setPlayersToStartPosition(ball: self.ballOne, isTopPlayer: true)
-                        self.setPlayersToStartPosition(ball: self.ballTwo, isTopPlayer: false)     
+                        self.gameStartCountdown()
+                        
                 })
             }
         }
@@ -337,6 +337,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 
                 speed = 1.0
                 shapeTravelTime = 8
+                score = 0
             }
             
             //Show Ad
@@ -386,12 +387,17 @@ extension GameScene {
     
     func setScoreLabel() {
         
-        scoreLabelNode = SKLabelNode(fontNamed: "Verdana")
-        scoreLabelNode.position = CGPoint(x: self.frame.midX, y: height * 0.85)
-        scoreLabelNode.zPosition = 100
-        scoreLabelNode.setScale(0.7)
-        scoreLabelNode.text = String(score)
-        addChild(scoreLabelNode)
+        if scoreLabelNode == nil {
+            scoreLabelNode = SKLabelNode(fontNamed: "Verdana")
+            scoreLabelNode.position = CGPoint(x: self.frame.midX, y: height * 0.85)
+            scoreLabelNode.zPosition = 100
+            scoreLabelNode.setScale(0.7)
+            scoreLabelNode.text = String(score)
+            addChild(scoreLabelNode)
+        } else {
+            scoreLabelNode.text = String(score)
+        }
+        
     }
     
     func createGravities(ball: SKSpriteNode, isTopPlayer: Bool) {
