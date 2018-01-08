@@ -64,7 +64,7 @@ class GameViewController: UIViewController {
                 
                 // Present the scene
                 view.presentScene(scene)
-    
+                scene.parentViewController = self
             }
             view.ignoresSiblingOrder = true
         }

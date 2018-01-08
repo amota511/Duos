@@ -45,9 +45,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var textures =
         [SKTexture(imageNamed: "Light Grey Circle"), SKTexture(imageNamed: "Dark Grey Circle"), SKTexture(imageNamed: "Light Grey Square"), SKTexture(imageNamed: "Dark Grey Square"), SKTexture(imageNamed: "Light Grey Triangle"), SKTexture(imageNamed: "Dark Grey Triangle")]
     
+    var shapes = SKNode()
     
     override func didMove(to view: SKView) {
-        print("scene loaded")
+        
         setBackground()
 
         createPlayers()
@@ -64,6 +65,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.backgroundColor = skyColor
         
         self.physicsWorld.contactDelegate = self
+  
+        addChild(shapes)
     }
     
     func createHomeScreen() {
@@ -294,6 +297,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             //User Has Lost
             print("user lost")
             
+            //Show Ad
+            //parentViewController.gameOverFunc()
+            
+            //Show dead screen
+            
         }
     }
 }
@@ -355,12 +363,6 @@ extension GameScene {
     
     func spawnShapes() {
         
-        let shapes = SKNode()
-        
-        let moving = SKNode()
-        moving.speed = 7.5
-        moving.addChild(shapes)
-        
         let generateShape = SKAction.run({() in self.generateShape()})
         let pauseGenerator = SKAction.wait(forDuration: TimeInterval(2))
         let generateShapesForever = SKAction.repeatForever(SKAction.sequence([generateShape, pauseGenerator]))
@@ -368,25 +370,18 @@ extension GameScene {
         run(generateShapesForever)
     }
     
-    func moveAndRemoveShape(index: Int) -> SKAction{
-        
-        let moveShape = SKAction.moveBy(x: distanceToMove * textures[index].size().width, y: 0.0, duration: TimeInterval(1.25 * -distanceToMove))
-        let removeShape = SKAction.removeFromParent()
-        
-        return SKAction.sequence([moveShape, removeShape])
-    }
-    
     func generateShape() {
+        
         let index = Int(arc4random_uniform(3)) * 2
       
-        let shapeGap = self.frame.size.height * 0.5
+        let shapeGap = self.height * 0.4
         
         let shapePair = SKNode()
-        shapePair.position = CGPoint(x: self.frame.size.width + textures[index].size().width * 2, y: 0)
+        shapePair.position = CGPoint(x: width + textures[index].size().width * 2, y: 0)
         shapePair.zPosition = -10
         
-        let height = UInt32(self.frame.size.height * 0.4)
-        let y = CGFloat(arc4random_uniform(height) + UInt32(self.frame.size.height * 0.035))
+        let height = UInt32(self.height * 0.4)
+        let y = CGFloat(arc4random_uniform(height) + UInt32(self.height * 0.035))
         
         let topShape = SKSpriteNode(texture: textures[index])
         topShape.setScale(0.2)
@@ -400,6 +395,7 @@ extension GameScene {
         
         shapePair.addChild(topShape)
         
+        
         let bottomShape = SKSpriteNode(texture: textures[index + 1])
         bottomShape.setScale(0.2)
         bottomShape.position = CGPoint(x: 0.0, y: y + bottomShape.frame.size.height + shapeGap)
@@ -409,6 +405,7 @@ extension GameScene {
         bottomShape.physicsBody!.categoryBitMask = colliderType.shape.rawValue
         bottomShape.physicsBody!.contactTestBitMask = colliderType.player.rawValue
         bottomShape.physicsBody!.collisionBitMask = colliderType.player.rawValue
+        
         shapePair.addChild(bottomShape)
         
         let scoreContactNode = SKNode()
@@ -420,117 +417,23 @@ extension GameScene {
         shapePair.addChild(scoreContactNode)
 
         shapePair.run(moveAndRemoveShape(index: index))
-        addChild(shapePair)
+        
+        shapes.addChild(shapePair)
     }
     
-//    func spawnSquare() {
-//
-//        let shapeGap = self.frame.size.height / 2.7
-//
-//        let squarePair = SKNode()
-//        squarePair.position = CGPoint(x: self.frame.size.width + darkGreySquareTexture.size().width * 2, y: 0)
-//        squarePair.zPosition = -10
-//
-//        let height = UInt32(self.frame.size.height / 3.5)
-//        let y = arc4random_uniform(height) + (height / 2)
-//
-//        let squareDown = SKSpriteNode(texture: lightGreySquareTexture)
-//        squareDown.setScale(self.frame.size.height / 2700)
-//        squareDown.position = CGPoint(x: 0.0, y: CGFloat(y) + squareDown.frame.size.height + CGFloat(shapeGap))
-//
-//        squareDown.physicsBody = SKPhysicsBody(texture: darkGreySquareTexture, size: squareDown.size)
-//        squareDown.physicsBody!.isDynamic = false
-//        squareDown.physicsBody!.categoryBitMask = colliderType.shape.rawValue
-//        squareDown.physicsBody!.contactTestBitMask = colliderType.player.rawValue
-//        squareDown.physicsBody!.collisionBitMask = colliderType.player.rawValue
-//
-//        squarePair.addChild(squareDown)
-//
-//        let squareUp = SKSpriteNode(texture: darkGreySquareTexture)
-//        squareUp.setScale(self.frame.size.height / 2700)
-//        squareUp.position = CGPoint(x: 0.0, y: CGFloat(y))
-//
-//        squareUp.physicsBody = SKPhysicsBody(texture: lightGreySquareTexture, size: squareUp.size)
-//        squareUp.physicsBody!.isDynamic = false
-//        squareUp.physicsBody!.categoryBitMask = colliderType.shape.rawValue
-//        squareUp.physicsBody!.contactTestBitMask = colliderType.player.rawValue
-//        squareUp.physicsBody!.collisionBitMask = colliderType.player.rawValue
-//        squarePair.addChild(squareUp)
-//
-//        let contactNode2 = SKNode()
-//        contactNode2.physicsBody = SKPhysicsBody(texture: blackBallTexture, size: blackBallTexture.size())
-//        contactNode2.position = CGPoint( x: squareDown.size.width + blackBall.size.width / 2, y: self.frame.minY )
-//        contactNode2.physicsBody = SKPhysicsBody(rectangleOf: CGSize( width: squareUp.size.width, height: self.frame.size.height ))
-//        contactNode2.physicsBody?.isDynamic = false
-//        contactNode2.physicsBody?.categoryBitMask = colliderType.score.rawValue
-//        contactNode2.physicsBody?.contactTestBitMask = colliderType.player.rawValue
-//        squarePair.addChild(contactNode2)
-//
-//        squarePair.run(SquareMoveAndRemove)
-//        shapes.addChild(squarePair)
-//
-//    }
-//
-//    func spawnCircle() {
-//
-//        let shapeGap = self.frame.size.height / 2.7
-//
-//        let circlePair = SKNode()
-//        circlePair.position = CGPoint(x: self.frame.size.width + darkGreyCircleTexture.size().width * 2, y: 0)
-//        circlePair.zPosition = -10
-//
-//        let height = UInt32(self.frame.size.height / 3.5)
-//        let y = arc4random_uniform(height) + (height / 2)
-//
-//        let circleDown = SKSpriteNode(texture: lightGreyCircleTexture)
-//        circleDown.setScale(self.frame.size.height / 2700)
-//        circleDown.position = CGPoint(x: 0.0, y: CGFloat(y) + circleDown.frame.size.height + CGFloat(shapeGap))
-//
-//        circleDown.physicsBody = SKPhysicsBody(circleOfRadius: circleDown.frame.size.height / 2.2)
-//        circleDown.physicsBody!.isDynamic = false
-//        circleDown.physicsBody!.categoryBitMask = colliderType.shape.rawValue
-//        circleDown.physicsBody!.contactTestBitMask = colliderType.player.rawValue
-//        circleDown.physicsBody!.collisionBitMask = colliderType.player.rawValue
-//
-//        circlePair.addChild(circleDown)
-//
-//        let circleUp = SKSpriteNode(texture: darkGreyCircleTexture)
-//        circleUp.setScale(self.frame.size.height / 2700)
-//        circleUp.position = CGPoint(x: 0.0, y: CGFloat(y))
-//
-//        circleUp.physicsBody = SKPhysicsBody(circleOfRadius: circleUp.frame.size.height / 2.2)
-//        circleUp.physicsBody!.isDynamic = false
-//        circleUp.physicsBody!.categoryBitMask = colliderType.shape.rawValue
-//        circleUp.physicsBody!.contactTestBitMask = colliderType.player.rawValue
-//        circleUp.physicsBody!.collisionBitMask = colliderType.player.rawValue
-//        circlePair.addChild(circleUp)
-//
-//        let contactNode = SKNode()
-//        contactNode.position = CGPoint( x: circleDown.size.width + blackBall.size.width / 2, y: self.frame.minY )
-//        contactNode.physicsBody = SKPhysicsBody(rectangleOf: CGSize( width: circleUp.size.width, height: self.frame.size.height ))
-//        contactNode.physicsBody?.isDynamic = false
-//        contactNode.physicsBody?.categoryBitMask = colliderType.score.rawValue
-//        contactNode.physicsBody?.contactTestBitMask = colliderType.player.rawValue
-//        circlePair.addChild(contactNode)
-//
-//
-//
-//
-//        circlePair.run(circleMoveAndRemove)
-//        shapes.addChild(circlePair)
-//
-//    }
-//
-//
-//    func Shape() {
-//
-//        let randomShape = [1 : SKAction.run({() in self.spawnCircle()}), 2 : SKAction.run({() in self.spawnSquare()}), 3 : SKAction.run({() in self.spawnTriangle()})]
-//
-//        let randomNumberShape = Int(arc4random_uniform(3) + 1)
-//
-//        let spawnShape = randomShape[randomNumberShape]!
-//
-//        run(spawnShape)
-//    }
+    func moveAndRemoveShape(index: Int) -> SKAction{
+        
+        let moveShape = SKAction.moveBy(x: distanceToMove * textures[index].size().width, y: 0.0, duration: TimeInterval(1.25 * -distanceToMove))
+        let removeShape = SKAction.removeFromParent()
+        
+        return SKAction.sequence([moveShape, removeShape])
+    }
 }
 
+//Dead Screen
+extension GameScene {
+
+    func removeShapes() {
+        
+    }
+}
