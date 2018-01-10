@@ -78,6 +78,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
         createDuosLetters()
         createPlayLabel()
+        createHighScoreLabel()
     }
     
     func createPlayers() {
@@ -176,7 +177,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         let SLabel = createLetter(letter: "S", xOffset: Int(self.view!.frame.height * 0.1), pauseInterval: 1.2)
         self.addChild(SLabel)
-        
+
         letterNodes.append(contentsOf: [DLabel, ULabel, OLabel, SLabel])
     }
     
@@ -207,6 +208,36 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.addChild(playLabel)
     }
     
+    func createHighScoreLabel() {
+        
+        highScoreLabel = SKLabelNode(fontNamed:"Verdana")
+        highScoreLabel.position = CGPoint(x: self.frame.midX, y: 0)
+        highScoreLabel.setScale(0.5)
+        self.addChild(highScoreLabel)
+    }
+    
+    func setHighScoreLabel() {
+        
+        let highScore = UserDefaults().integer(forKey: "High Score")
+        if score / 2 > highScore {
+            highScoreLabel.text = "New High Score!"
+            UserDefaults().set(score / 2, forKey: "High Score")
+        } else {
+            highScoreLabel.text = "High Score: \(highScore)"
+        }
+        print("high score = \(highScore)")
+        print("score = \(score / 2)")
+    }
+    
+    func showHighScore() {
+        setHighScoreLabel()
+        highScoreLabel.run(SKAction.moveTo(y: height * 0.4, duration: 0.4))
+    }
+    
+    func hideHighScore() {
+        highScoreLabel.run(SKAction.moveTo(y: -highScoreLabel.fontSize, duration: 0.4))
+    }
+    
     func removeStartScreen() {
         
         //remove duos label
@@ -230,7 +261,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         playLabel.run(SKAction.moveTo(y: -playLabel.fontSize, duration: 0.4), completion: {
             self.gameStartCountdown()
         })
-        
     }
     
     func gameStartCountdown() {
@@ -320,21 +350,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }else {
 
             //User Has Lost
-            
-            
             if gameIsPlaying {
                 
                 pause()
+                showPlayLabel()
+                showHighScore()
                 reset()
                 parentViewController.gameOver()
-                showPlayLabel()
+                
             }
-            
-            //Show Ad
-            
-            
-            //Show dead screen
-            
         }
     }
 }
@@ -401,6 +425,7 @@ extension GameScene {
                 self.createBallPhysics()
                 
                 self.hidePlayLabel()
+                self.hideHighScore()
                 
         })
     }
@@ -414,7 +439,6 @@ extension GameScene {
         let moveToXStartPosition = SKAction.moveTo(x: width / 7, duration: 0.5)
         
         ball.run(SKAction.sequence([moveToYStartPosition, moveToXStartPosition]), completion: {
-            print("balls set")
             ball.removeAllActions()
         })
     }
