@@ -49,6 +49,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var shouldRewind = false
     var shapeTravelTime: CGFloat = 8
     
+    /**************************Dead Screen**************************/
+    var highScoreLabel: SKLabelNode!
+    
     override func didMove(to view: SKView) {
         
         setBackground()
@@ -215,17 +218,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             })
         }
         
-        playLabel.run(SKAction.moveTo(y: 0 - playLabel.fontSize, duration: 0.4), completion: {
-            
-            self.playLabel.removeFromParent()
-            
+        hidePlayLabel()
+        playLabel.text = "Tap To Restart"
+    }
+    
+    func showPlayLabel() {
+        playLabel.run(SKAction.moveTo(y: height * 0.05, duration: 0.4))
+    }
+    
+    func hidePlayLabel() {
+        playLabel.run(SKAction.moveTo(y: -playLabel.fontSize, duration: 0.4), completion: {
             self.gameStartCountdown()
         })
+        
     }
     
     func gameStartCountdown() {
         
         self.parentViewController.numOfGamesPlayed += 1
+        
         
         createNumber(num: 3)
         setPlayersToStartPosition(ball: ballOne, isTopPlayer: true)
@@ -273,8 +284,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 applyForceOnBall(ball: ballTwo, isTopPlayer: false)
             }
             else if shouldRewind {
-                
-               restart()
+                restart()
             }
         }
     }
@@ -317,7 +327,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 pause()
                 reset()
                 parentViewController.gameOver()
-                
+                showPlayLabel()
             }
             
             //Show Ad
@@ -390,7 +400,7 @@ extension GameScene {
                 
                 self.createBallPhysics()
                 
-                self.gameStartCountdown()
+                self.hidePlayLabel()
                 
         })
     }
