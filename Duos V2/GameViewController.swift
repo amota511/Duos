@@ -18,7 +18,7 @@ protocol NumberOfGamesPlayedDelegate {
     var numOfGamesPlayed: Int {get set}
 }
 
-class GameViewController: UIViewController, NumberOfGamesPlayedDelegate {
+class GameViewController: UIViewController, NumberOfGamesPlayedDelegate, GADInterstitialDelegate {
     
     var interstitial: GADInterstitial!
     
@@ -31,6 +31,8 @@ class GameViewController: UIViewController, NumberOfGamesPlayedDelegate {
     
     var died = 0
     
+    var scene: GameScene? = nil
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -40,10 +42,14 @@ class GameViewController: UIViewController, NumberOfGamesPlayedDelegate {
         
     }
     
+    func interstitialDidDismissScreen(_ ad: GADInterstitial) {
+        scene?.shouldRewind = true
+    }
+    
     func loadAd() {
         interstitial = GADInterstitial(adUnitID: "ca-app-pub-3940256099942544/4411468910")
+        interstitial.delegate = self
         
-        print("load ad")
         let request = GADRequest()
         interstitial.load(request)
     }
@@ -53,24 +59,21 @@ class GameViewController: UIViewController, NumberOfGamesPlayedDelegate {
         if interstitial.isReady {
             interstitial.present(fromRootViewController: self)
         } else {
-            print("Ad wasn't ready")
+            scene?.shouldRewind = true
         }
     }
     
     func createScene() {
-        print("create scene")
-
         if let view = self.view as! SKView? {
             // Load the SKScene from 'GameScene.sks'
             if let scene = loadGameScene() as? GameScene {
                 // Set the scale mode to scale to fit the window
                 scene.scaleMode = .resizeFill
                 
-                print("should be working")
-                
                 // Present the scene
                 view.presentScene(scene)
                 scene.parentViewController = self
+                self.scene = scene
             }
             view.ignoresSiblingOrder = true
         }
@@ -89,7 +92,6 @@ class GameViewController: UIViewController, NumberOfGamesPlayedDelegate {
         } else {
             return nil
         }
-        
     }
     
     func playBackgroundMusic() {
@@ -98,43 +100,15 @@ class GameViewController: UIViewController, NumberOfGamesPlayedDelegate {
         playAudio.numberOfLoops = Int.max
         playAudio.play()
     }
+    
+    func gameOver(){
 
-    
-    func GameStartFunc(){
-        
-        if let scene = GameScene.unarchiveFromFile("GameScene") as? GameScene {
-            // Configure the view.
-            let skView = self.view as! SKView
-            skView.showsFPS = false
-            skView.showsNodeCount = false
-            
-            /* Sprite Kit applies additional optimizations to improve rendering performance */
-            skView.ignoresSiblingOrder = true
-            
-            /* Set the scale mode to scale to fit the window */
-            
-            //scene.scaleMode = .resizeFill
-//            scene.frame = skView.frame
-            
-            skView.presentScene(scene)
-            
-            scene.parentViewController = self
-        }
-    }
-    
-    
-    func gameOverFunc(){
-        
-//        died += 1
-//        if died == 2 {
-//            showAd()
-//            loadAd()
-//            died = 0
-//        }
-        if numOfGamesPlayed == 2{
+        if numOfGamesPlayed == 3 {
             showAd()
             loadAd()
             numOfGamesPlayed = 0
+        } else {
+            scene?.shouldRewind = true
         }
     }
     

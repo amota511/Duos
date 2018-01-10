@@ -493,7 +493,7 @@ class levelEndless: SKScene, SKPhysicsContactDelegate {
                 
                 moving.speed = 0
                 
-                self.gameView5.gameOverFunc()
+                //self.gameView5.gameOverFunc()
                 
                 
             }

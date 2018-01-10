@@ -541,7 +541,7 @@ class levelOne: SKScene, SKPhysicsContactDelegate {
                 
                 moving.speed = 0
                 
-                self.gameView1.gameOverFunc()
+                //self.gameView1.gameOverFunc()
                 
                 
             }

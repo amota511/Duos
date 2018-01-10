@@ -450,7 +450,7 @@ class levelThree: SKScene, SKPhysicsContactDelegate {
                 
                     moving.speed = 0
                 
-                    self.gameView3.gameOverFunc()
+                    //self.gameView3.gameOverFunc()
                 
             }
             

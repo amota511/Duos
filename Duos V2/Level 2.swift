@@ -532,7 +532,7 @@ class levelTwo: SKScene, SKPhysicsContactDelegate {
                 
                 moving.speed = 0
                 
-                self.gameView2.gameOverFunc()
+                //self.gameView2.gameOverFunc()
                 //self.DeadScreenPopUp1()
                 
                 

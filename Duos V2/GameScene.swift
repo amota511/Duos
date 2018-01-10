@@ -235,8 +235,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func createNumber(num : Int) {
         
         let number = SKLabelNode(fontNamed: "Verdana")
-        number.position = CGPoint(x: self.frame.midX, y: self.frame.midY + 15)
-        number.setScale(3)
+        number.position = CGPoint(x: self.frame.midX, y: height * 0.6)
+        number.fontSize = 60
         number.text = num == 0 ? "Go!" : String(num)
         number.fontColor = SKColor.lightText
         
@@ -271,27 +271,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 
                 applyForceOnBall(ball: ballOne, isTopPlayer: true)
                 applyForceOnBall(ball: ballTwo, isTopPlayer: false)
-            } else if shouldRewind {
+            }
+            else if shouldRewind {
                 
-                for shape in shapes.children {
-                    shape.removeAllActions()
-                }
-                shouldRewind = false
-                removeAllActions()
-                shapes.isPaused = false
-                
-                run(SKAction.run {
-                    for shape in self.shapes.children {
-                        self.rewindAndRemoveShape(shape: shape)
-                    }
-                    }, completion: {
-                        print("The shapes have been removed")
-
-                        self.createBallPhysics()
-                        
-                        self.gameStartCountdown()
-                        
-                })
+               restart()
             }
         }
     }
@@ -331,19 +314,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             if gameIsPlaying {
                 
-                shapes.isPaused = true
-                shouldRewind = true
-                gameIsPlaying = false
+                pause()
+                reset()
+                parentViewController.gameOver()
                 
-                removeAllActions()
-                
-                speed = 1.0
-                shapeTravelTime = 8
-                score = 0
             }
             
             //Show Ad
-            parentViewController.gameOverFunc()
+            
             
             //Show dead screen
             
@@ -373,6 +351,50 @@ extension GameScene {
         spawnShapes()
     }
     
+    func reset() {
+        
+        speed = 1.0
+        shapeTravelTime = 8
+        score = 0
+    }
+    
+    func pause() {
+        
+        gameIsPlaying = false
+        
+        shapes.isPaused = true
+        ballOne.isPaused = true
+        ballTwo.isPaused = true
+        
+        removeAllActions()
+    }
+    
+    func restart() {
+        
+        shapes.isPaused = false
+        ballOne.isPaused = false
+        ballTwo.isPaused = false
+        
+        for shape in shapes.children {
+            shape.removeAllActions()
+        }
+        
+        shouldRewind = false
+        //removeAllActions()
+        
+        run(SKAction.run {
+            for shape in self.shapes.children {
+                self.rewindAndRemoveShape(shape: shape)
+            }
+            }, completion: {
+                
+                self.createBallPhysics()
+                
+                self.gameStartCountdown()
+                
+        })
+    }
+    
     func setPlayersToStartPosition(ball: SKSpriteNode, isTopPlayer: Bool) {
         
         ball.removeAllActions()
@@ -393,7 +415,7 @@ extension GameScene {
             scoreLabelNode = SKLabelNode(fontNamed: "Verdana")
             scoreLabelNode.position = CGPoint(x: self.frame.midX, y: height * 0.85)
             scoreLabelNode.zPosition = 100
-            scoreLabelNode.setScale(0.7)
+            scoreLabelNode.fontSize = 20
             scoreLabelNode.text = String(score)
             addChild(scoreLabelNode)
         } else {
@@ -427,13 +449,13 @@ extension GameScene {
         
         let index = Int(arc4random_uniform(3)) * 2
       
-        let shapeGap = self.height * 0.4
+        let shapeGap = self.height * 0.6
         
         let shapePair = SKNode()
         shapePair.position = CGPoint(x: width, y: 0)
         shapePair.zPosition = -10
         
-        let height = UInt32(self.height * 0.4)
+        let height = UInt32(self.height * 0.3)
         let y = CGFloat(arc4random_uniform(height) + UInt32(self.height * 0.035))
         
         let topShape = SKSpriteNode(texture: textures[index])
