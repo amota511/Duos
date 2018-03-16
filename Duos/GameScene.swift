@@ -58,8 +58,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
         createPlayers()
         createBar()
-        //createBorders(isTopBorder: true)
-        //createBorders(isTopBorder: false)
+        createBorders(isTopBorder: true)
+        createBorders(isTopBorder: false)
         
         createHomeScreen()
     }
@@ -151,15 +151,28 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func createBorders(isTopBorder: Bool) {
         
-        let border = SKSpriteNode(texture: barNode.texture!)
+        var borderTexture: SKTexture!
         
-        border.physicsBody = SKPhysicsBody(rectangleOf: barNode.size)
+        if (isTopBorder) {
+            borderTexture = SKTexture(imageNamed: "flipped_spikes_transparent")
+        } else {
+            borderTexture = SKTexture(imageNamed: "spikes_transparent")
+        }
+        let border = SKSpriteNode(texture: borderTexture)
+        border.size = CGSize(width: self.view!.frame.width, height: self.view!.frame.height * 0.05)
+        
+        border.physicsBody = SKPhysicsBody(texture: border.texture!, size: border.size)
         border.physicsBody!.isDynamic = false
         border.physicsBody!.categoryBitMask = colliderType.bar.rawValue
         border.physicsBody!.contactTestBitMask = colliderType.player.rawValue
         border.physicsBody!.collisionBitMask = colliderType.player.rawValue
         
-        border.position = isTopBorder ? CGPoint(x: self.frame.minX, y: self.frame.minY) : CGPoint(x: self.frame.minX, y: self.frame.maxY)
+        if (isTopBorder) {
+            border.position = CGPoint(x: border.frame.size.width * 0.5, y: self.frame.maxY - border.frame.size.height * 0.5)
+        } else {
+            border.position = CGPoint(x: border.frame.size.width * 0.5, y: border.frame.size.height * 0.5)
+        }
+        
         
         addChild(border)
     }
@@ -300,22 +313,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         /* Called when a touch begins */
-        for touch: AnyObject in touches {
-           
-            let location = touch.location(in: self)
- 
-            if !hasRemovedHomeScreen {
-                
-                self.removeStartScreen()
-                hasRemovedHomeScreen = true
-            } else if gameIsPlaying {
-                
-                applyForceOnBall(ball: ballOne, isTopPlayer: true)
-                applyForceOnBall(ball: ballTwo, isTopPlayer: false)
-            }
-            else if shouldRewind {
-                restart()
-            }
+        if !hasRemovedHomeScreen {
+            
+            self.removeStartScreen()
+            hasRemovedHomeScreen = true
+        } else if gameIsPlaying {
+            
+            applyForceOnBall(ball: ballOne, isTopPlayer: true)
+            applyForceOnBall(ball: ballTwo, isTopPlayer: false)
+        }
+        else if shouldRewind {
+            restart()
         }
     }
     

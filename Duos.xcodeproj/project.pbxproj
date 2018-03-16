@@ -77,7 +77,7 @@
 		1AA21DD11B86B22100C1F53E /* GameFinished.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameFinished.swift; sourceTree = "<group>"; };
 		1AA21DD51B880E0400C1F53E /* Level Endless.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Level Endless.swift"; sourceTree = "<group>"; };
 		1AA21DD71B898E5D00C1F53E /* Tutorial.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tutorial.swift; sourceTree = "<group>"; };
-		1AB850E21B812EE9004A032B /* Duos V2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Duos V2.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1AB850E21B812EE9004A032B /* Duos.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Duos.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1AB850E61B812EE9004A032B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1AB850E71B812EE9004A032B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1AB850E91B812EE9004A032B /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -86,7 +86,7 @@
 		1AB850F01B812EE9004A032B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		1AB850F21B812EE9004A032B /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		1AB850F51B812EE9004A032B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
-		1AB850FB1B812EE9004A032B /* Duos V2Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Duos V2Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1AB850FB1B812EE9004A032B /* DuosTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DuosTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1AB851001B812EE9004A032B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1AB851011B812EE9004A032B /* Duos_V2Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Duos_V2Tests.swift; sourceTree = "<group>"; };
 		31F9E4C0E1D87EAB890C9C87 /* Pods_Duos_V2.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Duos_V2.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -145,8 +145,8 @@
 			children = (
 				1A0B5FED1BAA2385004558A4 /* GameKit.framework */,
 				1A14D15B1B8178D8008CEB17 /* AVFoundation.framework */,
-				1AB850E41B812EE9004A032B /* Duos V2 */,
-				1AB850FE1B812EE9004A032B /* Duos V2Tests */,
+				1AB850E41B812EE9004A032B /* Duos */,
+				1AB850FE1B812EE9004A032B /* Duos Tests */,
 				1AB850E31B812EE9004A032B /* Products */,
 				D3F44E9EEDE3590529AED3E0 /* Pods */,
 				DF566A56053C12DFDE4C6E33 /* Frameworks */,
@@ -156,13 +156,13 @@
 		1AB850E31B812EE9004A032B /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				1AB850E21B812EE9004A032B /* Duos V2.app */,
-				1AB850FB1B812EE9004A032B /* Duos V2Tests.xctest */,
+				1AB850E21B812EE9004A032B /* Duos.app */,
+				1AB850FB1B812EE9004A032B /* DuosTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		1AB850E41B812EE9004A032B /* Duos V2 */ = {
+		1AB850E41B812EE9004A032B /* Duos */ = {
 			isa = PBXGroup;
 			children = (
 				1AB850E71B812EE9004A032B /* AppDelegate.swift */,
@@ -181,7 +181,7 @@
 				1A14D12C1B81301A008CEB17 /* Media stuff */,
 				1AB850E51B812EE9004A032B /* Supporting Files */,
 			);
-			path = "Duos V2";
+			path = Duos;
 			sourceTree = "<group>";
 		};
 		1AB850E51B812EE9004A032B /* Supporting Files */ = {
@@ -192,13 +192,13 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		1AB850FE1B812EE9004A032B /* Duos V2Tests */ = {
+		1AB850FE1B812EE9004A032B /* Duos Tests */ = {
 			isa = PBXGroup;
 			children = (
 				1AB851011B812EE9004A032B /* Duos_V2Tests.swift */,
 				1AB850FF1B812EE9004A032B /* Supporting Files */,
 			);
-			path = "Duos V2Tests";
+			path = "Duos Tests";
 			sourceTree = "<group>";
 		};
 		1AB850FF1B812EE9004A032B /* Supporting Files */ = {
@@ -232,9 +232,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		1AB850E11B812EE9004A032B /* Duos V2 */ = {
+		1AB850E11B812EE9004A032B /* Duos */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 1AB851051B812EE9004A032B /* Build configuration list for PBXNativeTarget "Duos V2" */;
+			buildConfigurationList = 1AB851051B812EE9004A032B /* Build configuration list for PBXNativeTarget "Duos" */;
 			buildPhases = (
 				DB48C501D0465F7262165ECC /* [CP] Check Pods Manifest.lock */,
 				1AB850DE1B812EE9004A032B /* Sources */,
@@ -247,14 +247,14 @@
 			);
 			dependencies = (
 			);
-			name = "Duos V2";
+			name = Duos;
 			productName = "Duos V2";
-			productReference = 1AB850E21B812EE9004A032B /* Duos V2.app */;
+			productReference = 1AB850E21B812EE9004A032B /* Duos.app */;
 			productType = "com.apple.product-type.application";
 		};
-		1AB850FA1B812EE9004A032B /* Duos V2Tests */ = {
+		1AB850FA1B812EE9004A032B /* DuosTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 1AB851081B812EE9004A032B /* Build configuration list for PBXNativeTarget "Duos V2Tests" */;
+			buildConfigurationList = 1AB851081B812EE9004A032B /* Build configuration list for PBXNativeTarget "DuosTests" */;
 			buildPhases = (
 				7E4A4C71D00D8D5A154EA306 /* [CP] Check Pods Manifest.lock */,
 				1AB850F71B812EE9004A032B /* Sources */,
@@ -268,9 +268,9 @@
 			dependencies = (
 				1AB850FD1B812EE9004A032B /* PBXTargetDependency */,
 			);
-			name = "Duos V2Tests";
+			name = DuosTests;
 			productName = "Duos V2Tests";
-			productReference = 1AB850FB1B812EE9004A032B /* Duos V2Tests.xctest */;
+			productReference = 1AB850FB1B812EE9004A032B /* DuosTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -301,7 +301,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 1AB850DD1B812EE9004A032B /* Build configuration list for PBXProject "Duos V2" */;
+			buildConfigurationList = 1AB850DD1B812EE9004A032B /* Build configuration list for PBXProject "Duos" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -314,8 +314,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				1AB850E11B812EE9004A032B /* Duos V2 */,
-				1AB850FA1B812EE9004A032B /* Duos V2Tests */,
+				1AB850E11B812EE9004A032B /* Duos */,
+				1AB850FA1B812EE9004A032B /* DuosTests */,
 			);
 		};
 /* End PBXProject section */
@@ -479,7 +479,7 @@
 /* Begin PBXTargetDependency section */
 		1AB850FD1B812EE9004A032B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 1AB850E11B812EE9004A032B /* Duos V2 */;
+			target = 1AB850E11B812EE9004A032B /* Duos */;
 			targetProxy = 1AB850FC1B812EE9004A032B /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -595,9 +595,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				INFOPLIST_FILE = "Duos V2/Info.plist";
+				INFOPLIST_FILE = Duos/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.motayne.aaron.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.motayne.aaron.Duos;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_VERSION = 3.0;
@@ -611,9 +611,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				INFOPLIST_FILE = "Duos V2/Info.plist";
+				INFOPLIST_FILE = Duos/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.motayne.aaron.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.motayne.aaron.Duos;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_VERSION = 3.0;
@@ -633,12 +633,12 @@
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = "Duos V2Tests/Info.plist";
+				INFOPLIST_FILE = "Duos Tests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.motayne.aaron.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Duos V2.app/Duos V2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Duos.app/Duos";
 			};
 			name = Debug;
 		};
@@ -651,19 +651,19 @@
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = "Duos V2Tests/Info.plist";
+				INFOPLIST_FILE = "Duos Tests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.motayne.aaron.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Duos V2.app/Duos V2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Duos.app/Duos";
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		1AB850DD1B812EE9004A032B /* Build configuration list for PBXProject "Duos V2" */ = {
+		1AB850DD1B812EE9004A032B /* Build configuration list for PBXProject "Duos" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1AB851031B812EE9004A032B /* Debug */,
@@ -672,7 +672,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		1AB851051B812EE9004A032B /* Build configuration list for PBXNativeTarget "Duos V2" */ = {
+		1AB851051B812EE9004A032B /* Build configuration list for PBXNativeTarget "Duos" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1AB851061B812EE9004A032B /* Debug */,
@@ -681,7 +681,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		1AB851081B812EE9004A032B /* Build configuration list for PBXNativeTarget "Duos V2Tests" */ = {
+		1AB851081B812EE9004A032B /* Build configuration list for PBXNativeTarget "DuosTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1AB851091B812EE9004A032B /* Debug */,

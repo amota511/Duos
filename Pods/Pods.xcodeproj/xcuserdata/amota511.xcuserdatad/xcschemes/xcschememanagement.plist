@@ -4,12 +4,12 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>Pods-Duos V2.xcscheme</key>
+		<key>Pods-Duos Tests.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>Pods-Duos V2Tests.xcscheme</key>
+		<key>Pods-Duos.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
