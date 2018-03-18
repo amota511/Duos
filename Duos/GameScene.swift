@@ -351,6 +351,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             //User has scored a point
             score += 1
+            parentViewController.playScoreMusic()
             scoreLabelNode.text = String(score / 2)
             
             scoreLabelNode.run(SKAction.sequence([SKAction.scale(to: 1.5, duration:TimeInterval(0.1)), SKAction.scale(to: 1.0, duration:TimeInterval(0.1))]))

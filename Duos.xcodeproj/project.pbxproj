@@ -12,6 +12,8 @@
 		1A14D12B1B812FEF008CEB17 /* Level 3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A14D12A1B812FEF008CEB17 /* Level 3.swift */; };
 		1A14D1521B813DAE008CEB17 /* Level 1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A14D1511B813DAE008CEB17 /* Level 1.swift */; };
 		1A14D15C1B8178D8008CEB17 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A14D15B1B8178D8008CEB17 /* AVFoundation.framework */; };
+		1A1DE93A205C765E0017691D /* scoreSound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 1A1DE938205C765D0017691D /* scoreSound.mp3 */; };
+		1A1DE93B205C765E0017691D /* diedSound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 1A1DE939205C765E0017691D /* diedSound.mp3 */; };
 		1A7681431DDC966C00B51AB2 /* Stage1.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A7681421DDC966C00B51AB2 /* Stage1.png */; };
 		1A7681461DDC967C00B51AB2 /* Stage2.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A7681441DDC967C00B51AB2 /* Stage2.png */; };
 		1A7681471DDC967C00B51AB2 /* Stage3.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A7681451DDC967C00B51AB2 /* Stage3.png */; };
@@ -59,6 +61,8 @@
 		1A14D12A1B812FEF008CEB17 /* Level 3.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Level 3.swift"; sourceTree = "<group>"; };
 		1A14D1511B813DAE008CEB17 /* Level 1.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Level 1.swift"; sourceTree = "<group>"; };
 		1A14D15B1B8178D8008CEB17 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		1A1DE938205C765D0017691D /* scoreSound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = scoreSound.mp3; sourceTree = "<group>"; };
+		1A1DE939205C765E0017691D /* diedSound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = diedSound.mp3; sourceTree = "<group>"; };
 		1A7681421DDC966C00B51AB2 /* Stage1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Stage1.png; sourceTree = "<group>"; };
 		1A7681441DDC967C00B51AB2 /* Stage2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Stage2.png; sourceTree = "<group>"; };
 		1A7681451DDC967C00B51AB2 /* Stage3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Stage3.png; sourceTree = "<group>"; };
@@ -121,6 +125,8 @@
 		1A14D12C1B81301A008CEB17 /* Media stuff */ = {
 			isa = PBXGroup;
 			children = (
+				1A1DE939205C765E0017691D /* diedSound.mp3 */,
+				1A1DE938205C765D0017691D /* scoreSound.mp3 */,
 				1A76815E1DDC96D000B51AB2 /* Game Music FINAL.mp3 */,
 				1A7681541DDC96AB00B51AB2 /* LargeLaunch.png */,
 				1A7681581DDC96C100B51AB2 /* Dark Grey Circle.png */,
@@ -329,6 +335,7 @@
 				1A7681511DDC968E00B51AB2 /* Bar.png in Resources */,
 				1AB850F61B812EE9004A032B /* LaunchScreen.xib in Resources */,
 				1A7681501DDC968E00B51AB2 /* Light Grey Triangle.png in Resources */,
+				1A1DE93B205C765E0017691D /* diedSound.mp3 in Resources */,
 				1AB850F31B812EE9004A032B /* Images.xcassets in Resources */,
 				1A7681471DDC967C00B51AB2 /* Stage3.png in Resources */,
 				1A76815F1DDC96D000B51AB2 /* Game Music FINAL.mp3 in Resources */,
@@ -338,6 +345,7 @@
 				1A7681531DDC968E00B51AB2 /* ballPlayer.png in Resources */,
 				1A7681571DDC96B100B51AB2 /* Home.png in Resources */,
 				1A76815D1DDC96C100B51AB2 /* Dark Grey Triangle.png in Resources */,
+				1A1DE93A205C765E0017691D /* scoreSound.mp3 in Resources */,
 				1AB850F11B812EE9004A032B /* Main.storyboard in Resources */,
 				1A7681521DDC968E00B51AB2 /* NewPlayers.png in Resources */,
 				1A76814F1DDC968E00B51AB2 /* Light Grey Square.png in Resources */,

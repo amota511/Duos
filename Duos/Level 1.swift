@@ -416,9 +416,8 @@ class levelOne: SKScene, SKPhysicsContactDelegate {
         
         
         self.addChild(BallPair)
-        
-        //let keepGoing = SKAction.runBlock({() in self.riseGreyball ()})
-        var riseBall = SKAction.run( {
+
+        SKAction.run( {
             () in
                 self.riseBlackBall()
             }

@@ -22,8 +22,12 @@ class GameViewController: UIViewController, NumberOfGamesPlayedDelegate, GADInte
     
     var interstitial: GADInterstitial!
     
-    var startAudio = URL(fileURLWithPath: Bundle.main.path(forResource: "Game Music FINAL", ofType: "mp3")!)
+    let startAudio = URL(fileURLWithPath: Bundle.main.path(forResource: "Game Music FINAL" , ofType: "mp3")!)
+    let scoreAudio = URL(fileURLWithPath: Bundle.main.path(forResource: "scoreSound", ofType: "mp3")!)
+    let diedAudio = URL(fileURLWithPath: Bundle.main.path(forResource: "diedSound", ofType: "mp3")!)
     var playAudio : AVAudioPlayer!
+    var scoreAudioPlayer: AVAudioPlayer!
+    var diedAudioPlayer: AVAudioPlayer!
     var NumberLevel = 0
     var musicTime: TimeInterval!
     
@@ -48,10 +52,13 @@ class GameViewController: UIViewController, NumberOfGamesPlayedDelegate, GADInte
     
     func loadAd() {
         //official: ca-app-pub-6905889377788671/9011742987
-        interstitial = GADInterstitial(adUnitID: "ca-app-pub-3940256099942544/4411468910")
+        //test ca-app-pub-3940256099942544/4411468910
+        
+        interstitial = GADInterstitial(adUnitID: "ca-app-pub-6905889377788671/9011742987")
         interstitial.delegate = self
         
         let request = GADRequest()
+        request.testDevices = ["12b49faa85773eca062221f4d44970b2"]
         interstitial.load(request)
     }
     
@@ -61,6 +68,7 @@ class GameViewController: UIViewController, NumberOfGamesPlayedDelegate, GADInte
             interstitial.present(fromRootViewController: self)
         } else {
             scene?.shouldRewind = true
+            print("ad not ready")
         }
     }
     
@@ -102,8 +110,22 @@ class GameViewController: UIViewController, NumberOfGamesPlayedDelegate, GADInte
         playAudio.play()
     }
     
-    func gameOver(){
+    func playScoreMusic() {
 
+        scoreAudioPlayer = try? AVAudioPlayer(contentsOf: scoreAudio)
+        scoreAudioPlayer!.play()
+    }
+    
+    func playDiedMusic() {
+
+        diedAudioPlayer = try? AVAudioPlayer(contentsOf: diedAudio)
+        diedAudioPlayer!.play()
+    }
+    
+    func gameOver() {
+        
+        playDiedMusic()
+        
         if numOfGamesPlayed == 3 {
             showAd()
             loadAd()
