@@ -51,14 +51,11 @@ class GameViewController: UIViewController, NumberOfGamesPlayedDelegate, GADInte
     }
     
     func loadAd() {
-        //official: ca-app-pub-6905889377788671/9011742987
-        //test ca-app-pub-3940256099942544/4411468910
-        
+
         interstitial = GADInterstitial(adUnitID: "ca-app-pub-6905889377788671/9011742987")
         interstitial.delegate = self
         
         let request = GADRequest()
-        request.testDevices = ["12b49faa85773eca062221f4d44970b2"]
         interstitial.load(request)
     }
     
