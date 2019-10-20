@@ -161,17 +161,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let border = SKSpriteNode(texture: borderTexture)
         border.size = CGSize(width: self.view!.frame.width, height: self.view!.frame.height * 0.05)
         
-        border.physicsBody = SKPhysicsBody(texture: border.texture!, size: border.size)
+        if (isTopBorder) {
+            border.position = CGPoint(x: border.frame.size.width * 0.425, y: self.frame.maxY - border.frame.size.height * 0.5)
+        } else {
+            border.position = CGPoint(x: border.frame.size.width * 0.425, y: border.frame.size.height * 0.5)
+        }
+        
+        border.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: border.size.width, height: border.size.height))
+            //SKPhysicsBody(texture: border.texture!, size: border.size)
+        print(border.texture!)
+        print(border.size)
         border.physicsBody!.isDynamic = false
         border.physicsBody!.categoryBitMask = colliderType.bar.rawValue
         border.physicsBody!.contactTestBitMask = colliderType.player.rawValue
         border.physicsBody!.collisionBitMask = colliderType.player.rawValue
         
-        if (isTopBorder) {
-            border.position = CGPoint(x: border.frame.size.width * 0.5, y: self.frame.maxY - border.frame.size.height * 0.5)
-        } else {
-            border.position = CGPoint(x: border.frame.size.width * 0.5, y: border.frame.size.height * 0.5)
-        }
+        
         
         
         addChild(border)
@@ -352,7 +357,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             //User has scored a point
             score += 1
             parentViewController.playScoreMusic()
-            scoreLabelNode.text = String(score / 2)
+            scoreLabelNode.text = String(score)
             
             scoreLabelNode.run(SKAction.sequence([SKAction.scale(to: 1.5, duration:TimeInterval(0.1)), SKAction.scale(to: 1.0, duration:TimeInterval(0.1))]))
             
@@ -453,6 +458,8 @@ extension GameScene {
     }
     
     func setScoreLabel() {
+        
+        score = 0
         
         if scoreLabelNode == nil {
             scoreLabelNode = SKLabelNode(fontNamed: "Verdana")

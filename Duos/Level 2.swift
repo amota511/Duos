@@ -510,7 +510,7 @@ class levelTwo: SKScene, SKPhysicsContactDelegate {
                 let showCurrentScore = scores.integer(forKey: "Score2")
                 
                 
-                scoreLabelNode.text = String(stringInterpolationSegment: showCurrentScore)
+                scoreLabelNode.text = String(showCurrentScore)
                 
                 scoreLabelNode.run(SKAction.sequence([SKAction.scale(to: 1.5, duration:TimeInterval(0.1)), SKAction.scale(to: 1.0, duration:TimeInterval(0.1))]))
                 

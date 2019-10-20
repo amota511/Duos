@@ -15,28 +15,46 @@
 		CA403C8AD45012A942CF144F2E1C66A6 /* Pods-Duos V2-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 8ED9920E781A48818FF08101E166837E /* Pods-Duos V2-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		A5FA368B235AFD1C00D16B5A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A5FA3686235AFD1C00D16B5A /* Duos.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1AB850E21B812EE9004A032B;
+			remoteInfo = Duos;
+		};
+		A5FA368D235AFD1C00D16B5A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A5FA3686235AFD1C00D16B5A /* Duos.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1AB850FB1B812EE9004A032B;
+			remoteInfo = DuosTests;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		0F838962706B481403C6A2748DE33C5C /* Pods-Duos V2-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-Duos V2-dummy.m"; sourceTree = "<group>"; };
 		1090340756ADDF2DBF9ACCD8578523E5 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		23CF765633A4D24CEB38EEE7BE86043D /* Pods-Duos V2Tests-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-Duos V2Tests-resources.sh"; sourceTree = "<group>"; };
 		2CE4463AAB4CE49017A8310BFDAE934B /* Pods-Duos V2Tests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-Duos V2Tests-acknowledgements.plist"; sourceTree = "<group>"; };
 		5094CBAC5ADCD14BE2C57DA0D746DE77 /* Pods-Duos V2Tests-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-Duos V2Tests-frameworks.sh"; sourceTree = "<group>"; };
-		516FE4AACF48C92A1F604518FF6AC44C /* Pods_Duos_V2Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_Duos_V2Tests.framework; path = "Pods-Duos V2Tests.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		516FE4AACF48C92A1F604518FF6AC44C /* Pods_Duos_V2Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Duos_V2Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6604A7D69453B4569E4E4827FB9155A9 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.3.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		849740A23F968368B7C1A86CE3CE3C12 /* Pods-Duos V2-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-Duos V2-resources.sh"; sourceTree = "<group>"; };
 		866B11050750749BF3CA452E59AA7B43 /* Pods-Duos V2Tests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-Duos V2Tests-dummy.m"; sourceTree = "<group>"; };
 		8ED9920E781A48818FF08101E166837E /* Pods-Duos V2-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-Duos V2-umbrella.h"; sourceTree = "<group>"; };
 		90F5D51A1EF3B15853202BB27FD146C5 /* Pods-Duos V2Tests-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-Duos V2Tests-umbrella.h"; sourceTree = "<group>"; };
-		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
-		9D22DE1A3D96D73B1307E89C912B5FE3 /* Pods-Duos V2.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = "Pods-Duos V2.modulemap"; sourceTree = "<group>"; };
+		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		9D22DE1A3D96D73B1307E89C912B5FE3 /* Pods-Duos V2.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = "Pods-Duos V2.modulemap"; sourceTree = "<group>"; };
 		9FDCEC92CBCCE5BF2F1BA01A019C9FCD /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A5FA3686235AFD1C00D16B5A /* Duos.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Duos.xcodeproj; path = ../Duos.xcodeproj; sourceTree = "<group>"; };
 		A87F35F0399AC115C9E481529426C733 /* Pods-Duos V2.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Duos V2.debug.xcconfig"; sourceTree = "<group>"; };
 		B063F012A4EA48C532707E93E126DF58 /* Pods-Duos V2.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Duos V2.release.xcconfig"; sourceTree = "<group>"; };
 		B533E3E79219030263085F806E849395 /* Pods-Duos V2Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Duos V2Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		B56E62FB6705E75319310A78CECEC997 /* Pods-Duos V2-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-Duos V2-acknowledgements.plist"; sourceTree = "<group>"; };
 		C3A855D7BC3CE2ADE7245852AF0FC34A /* Pods-Duos V2-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-Duos V2-frameworks.sh"; sourceTree = "<group>"; };
-		C53664F5A1CBA4A1F7556DD0D1A44A66 /* Pods-Duos V2Tests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = "Pods-Duos V2Tests.modulemap"; sourceTree = "<group>"; };
-		CBA295D39A2A7DA8C4C1F521E8ADEA7C /* Pods_Duos_V2.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_Duos_V2.framework; path = "Pods-Duos V2.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C53664F5A1CBA4A1F7556DD0D1A44A66 /* Pods-Duos V2Tests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = "Pods-Duos V2Tests.modulemap"; sourceTree = "<group>"; };
+		CBA295D39A2A7DA8C4C1F521E8ADEA7C /* Pods_Duos_V2.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Duos_V2.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D91A19DD2C5FB1B156172775786FB4C5 /* Pods-Duos V2Tests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-Duos V2Tests-acknowledgements.markdown"; sourceTree = "<group>"; };
 		ED42B32FA03781637732177F23D571AD /* Pods-Duos V2Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Duos V2Tests.release.xcconfig"; sourceTree = "<group>"; };
 		F27FEE9A2C808C1FF300B70C247E2D90 /* Pods-Duos V2-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-Duos V2-acknowledgements.markdown"; sourceTree = "<group>"; };
@@ -75,6 +93,7 @@
 		7DB346D0F39D3F0E887471402A8071AB = {
 			isa = PBXGroup;
 			children = (
+				A5FA3686235AFD1C00D16B5A /* Duos.xcodeproj */,
 				93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */,
 				BC3CA7F9E30CC8F7E2DD044DD34432FC /* Frameworks */,
 				820FBBDA65C5B1A6A4C379A893C27235 /* Pods */,
@@ -97,6 +116,15 @@
 				F87BBE855D70C2F87C02A1CCA30E262D /* GoogleMobileAds.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		A5FA3687235AFD1C00D16B5A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A5FA368C235AFD1C00D16B5A /* Duos.app */,
+				A5FA368E235AFD1C00D16B5A /* DuosTests.xctest */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		B1A2ADB79055BEF4CA64A6ED3C18CB79 /* Products */ = {
@@ -165,7 +193,6 @@
 			children = (
 				953FD61A3CECC96530CB5CA297A086C1 /* Frameworks */,
 			);
-			name = "Google-Mobile-Ads-SDK";
 			path = "Google-Mobile-Ads-SDK";
 			sourceTree = "<group>";
 		};
@@ -232,7 +259,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0830;
-				LastUpgradeCheck = 0700;
+				LastUpgradeCheck = 1010;
 			};
 			buildConfigurationList = 2D8E8EC45A3A1A1D94AE762CB5028504 /* Build configuration list for PBXProject "Pods" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -244,6 +271,12 @@
 			mainGroup = 7DB346D0F39D3F0E887471402A8071AB;
 			productRefGroup = B1A2ADB79055BEF4CA64A6ED3C18CB79 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = A5FA3687235AFD1C00D16B5A /* Products */;
+					ProjectRef = A5FA3686235AFD1C00D16B5A /* Duos.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				EE7075A00FC5B40B5ACB6121121A36EA /* Pods-Duos V2 */,
@@ -251,6 +284,23 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		A5FA368C235AFD1C00D16B5A /* Duos.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = Duos.app;
+			remoteRef = A5FA368B235AFD1C00D16B5A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		A5FA368E235AFD1C00D16B5A /* DuosTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = DuosTests.xctest;
+			remoteRef = A5FA368D235AFD1C00D16B5A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXSourcesBuildPhase section */
 		13ECD6109807DB15302E20F7CCDBA1B6 /* Sources */ = {
@@ -354,23 +404,33 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGNING_REQUIRED = NO;
 				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"POD_CONFIGURATION_DEBUG=1",
@@ -402,22 +462,32 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGNING_REQUIRED = NO;
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"POD_CONFIGURATION_RELEASE=1",
 					"$(inherited)",
